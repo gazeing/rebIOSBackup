@@ -1,0 +1,16 @@
+.main-subscription-form .title{
+    border-bottom: #2b3991 2px solid;
+
+}
+.footer-subscription-form .title{
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+article.item-page.features .headline{
+    font-size: 60px;
+}
+
+.blog-featured h2{
+    font-size: 1.2em;
+}

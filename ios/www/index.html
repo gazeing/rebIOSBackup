@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html manifest="http://www.rebonline.com.au/suresh/example.appcache">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+      <meta id="testViewport" name="viewport" content="user-scalable=yes, initial-scale=1,maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <title>Hello World</title>
+        
+        <script type='text/javascript'>
+            var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            (function() {
+             var gads = document.createElement('script');
+             gads.async = true;
+             gads.type = 'text/javascript';
+             var useSSL = 'https:' == document.location.protocol;
+             gads.src = (useSSL ? 'https:' : 'http:') +
+             '//www.googletagservices.com/tag/js/gpt.js';
+             var node = document.getElementsByTagName('script')[0];
+             node.parentNode.insertBefore(gads, node);
+             })();
+        </script>
+        
+        <script type='text/javascript'>
+            googletag.cmd.push(function() {
+                               googletag.defineSlot('/50807330/REB_LaunchAd', [1, 1], 'div-gpt-ad-1394062064311-0').addService(googletag.pubads());
+                               googletag.pubads().enableSingleRequest();
+                               googletag.enableServices();
+                               });
+            </script>
+            <script type='text/javascript'>
+                function setDFPSize(){
+                    var mvp = document.getElementById('google_ads_iframe_/50807330/REB_LaunchAd_0');
+                    mvp.setAttribute('width','100%');
+                    mvp.setAttribute('height','2048');
+                    var mp = document.getElementById('testViewport');
+                    mp.setAttribute('content','width=1536,height=2048');
+                }
+            
+            </script>
+            <script type='text/javascript'>
+                function getPushNotificationData(deviceToken,regdForPush,uuid)
+                {
+                    this.deviceToken=deviceToken;
+                    this.regdForPush=regdForPush;
+                    this.uuid=uuid;
+                    //alert('Device Token: '+this.deviceToken+' --> Registered For Push: '+this.regdForPush+' --> UUID: '+this.uuid);
+                    return 'http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+                }
+            </script>
+    </head>
+   <body onload="setDFPSize();" style="margin:0px;background-color:#6CC417">
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            
+            var ref=null;
+            var deviceToken=null;
+            var regdForPush=false;
+            var uuid=null;
+            document.addEventListener("deviceready", onDeviceReady, false);
+            
+            
+        function onDeviceReady() {
+            console.log('DeviceReady');
+            window.location  = 'ios:webToNativeCall';
+            setTimeout(function(){checkConnection();},2000);
+           // window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+            //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,onSuccessFileSystem,onFailFileSystem);
+        }
+        
+        
+        
+        function checkConnection() {
+            var networkState = navigator.connection.type;
+            var timeOutPeriod=12000;
+            var states = {};
+            states[Connection.NONE]  = 'Please connect to a WiFi or Mobile data network!!!';
+            if(Connection.NONE === networkState ){
+                navigator.notification.alert(states[networkState],
+                                             function(button){console.log('Offline!!!');},
+                                             'No Network Connection',
+                                             'OK'
+                                             );
+                console.log('No network Connection!!!');
+                var loadURL='Sorry.html';
+                ref = window.open(loadURL,'_blank','location=no,toolbar=no,hidden=yes');
+                timeOutPeriod=10;
+                addInAppBrowserListeners(ref,timeOutPeriod);
+            }else{
+                console.log('Network Connection Available...');
+                var loadURL='http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+                //alert(loadURL);
+                
+                loadURL='http://www.rebonline.com.au/steven/test8/';
+                
+                console.log('LoadURL='+loadURL);
+                ref = window.open(loadURL,'_blank','location=no,toolbar=no,hidden=yes');
+                addInAppBrowserListeners(ref,timeOutPeriod);
+             
+            }
+        }
+        
+        function onSuccessFileSystem(fileSystem){
+            var uri = encodeURI("http://thor.cs.ucsb.edu/~ravenben/papers/coreos/kll+97.pdf");
+            var directoryEntry = fileSystem.root; // to get root path to directory
+            alert(directoryEntry.toURL());
+            directoryEntry.getDirectory("SureshREB", { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail);
+            var fileTransfer = new FileTransfer();
+            fileTransfer.download(
+                                  uri,
+                                  directoryEntry.toURL()+"SureshREB/testDownload.pdf",
+                                  function(entry) {
+                                    //alert("download complete: " + entry.toURL());
+                                    var ref = window.open(entry.toURL(),'_blank','location=no,toolbar=yes,hidden=no');
+                                  },
+                                  function(error) {
+                                    alert("download error source " + error.source);
+                                    alert("download error target " + error.target);
+                                    alert("upload error code" + error.code);
+                                  },
+                                  true
+                                  );
+        }
+        
+        function onFailFileSystem(fileSystem){
+            alert('Fail:'+fileSystem.root.name);
+        }
+        
+        function onDirectorySuccess(dirEntry){
+            alert('Successs:');
+            alert(dirEntry.name);
+        }
+        
+        function onDirectoryFail(dirEntry){
+            alert('Fail');
+        }
+        
+        
+        function addInAppBrowserListeners(ref,timeOutPeriod){
+            ref.addEventListener('loadstart', iabLoadStart);
+            ref.addEventListener('loadstop', iabLoadStop(event,timeOutPeriod));
+            ref.addEventListener('loaderror', iabLoadError);
+            //ref.addEventListener('exit', iabClose);
+        }
+    
+        function iabLoadStart(event) {
+            console.log('Page loading starts...');
+        }
+        
+        function iabLoadStop(event,timeOutPeriod) {
+            console.log('Page loading completed...');
+            setTimeout(function(){ref.show();},timeOutPeriod);
+        }
+        
+        function iabLoadError(event) {
+            console.log('Error in loading the page...');
+            //ref.close();
+            ref = window.open('http://www.rebonline.com.au/suresh/offline.html','_blank','location=no,toolbar=no,hidden=no');
+            addInAppBrowserListeners(ref);
+        }
+        
+    </script>
+                <!-- REB_LaunchAd -->
+                 <   <div id='div-gpt-ad-1394062064311-0' style='width:100%; height:2048px;'">
+                        <script type='text/javascript'>
+                            googletag.cmd.push(function() {googletag.display('div-gpt-ad-1394062064311-0'); });
+                        </script>
+                    </div>
+        
+         <!-- <img class="loading" src="img/loading.gif"/> -->
+    </body>
+</html>
