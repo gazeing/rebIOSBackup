@@ -54,6 +54,9 @@
     <feature name="PushPlugin">
         <param name="ios-package" value="PushPlugin" />
     </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <name>REB iOS</name>
     <feature name="http://api.phonegap.com/1.0/device" />
     <preference name="permissions" value="none" />

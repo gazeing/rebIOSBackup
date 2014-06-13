@@ -21,6 +21,8 @@
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <Cordova/CDVJSON.h>
+#import "WebViewJavascriptBridge.h"
+#import "WebScriptBridge.h"
 
 #define    kInAppBrowserTargetSelf @"_self"
 #define    kInAppBrowserTargetSystem @"_system"
@@ -38,17 +40,25 @@
 @interface CDVInAppBrowser () {
     NSInteger _previousStatusBarStyle;
 }
+
 @end
 
 @implementation CDVInAppBrowser
 
 - (CDVInAppBrowser*)initWithWebView:(UIWebView*)theWebView
 {
+    
+    NSLog(@"begin    initWithWebView");
     self = [super initWithWebView:theWebView];
     if (self != nil) {
         _previousStatusBarStyle = -1;
         _callbackIdPattern = nil;
     }
+    
+
+    
+
+    
 
     return self;
 }
@@ -86,9 +96,17 @@
     NSString* options = [command argumentAtIndex:2 withDefault:@"" andClass:[NSString class]];
 
     self.callbackId = command.callbackId;
+    
+    
+
 
     if (url != nil) {
+        NSLog(@"NSURL* baseUrl = [self.webView.request URL];");
+        
         NSURL* baseUrl = [self.webView.request URL];
+        
+        
+        
         NSURL* absoluteUrl = [[NSURL URLWithString:url relativeToURL:baseUrl] absoluteURL];
         
         if ([self isSystemUrl:absoluteUrl]) {
@@ -174,6 +192,8 @@
         self.inAppBrowserViewController.webView.suppressesIncrementalRendering = browserOptions.suppressesincrementalrendering;
     }
   
+    NSLog(@"self.inAppBrowserViewController navigateTo: %@", url);
+    
     [self.inAppBrowserViewController navigateTo:url];
     if (!browserOptions.hidden) {
         [self show:nil];
@@ -207,6 +227,8 @@
 - (void)openInCordovaWebView:(NSURL*)url withOptions:(NSString*)options
 {
     if ([self.commandDelegate URLIsWhitelisted:url]) {
+        
+        NSLog(@"openInCordovaWebView: %@", url);
         
         //added on 31/MAR/2014 (cachePolicy: NSURLRequestReloadRevalidatingCacheData timeoutInterval:10.0)
         NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy: NSURLRequestReloadRevalidatingCacheData timeoutInterval:10.0];
@@ -267,6 +289,7 @@
 - (void)injectScriptFile:(CDVInvokedUrlCommand*)command
 {
     NSString* jsWrapper;
+     NSLog(@"injectScriptFile");
 
     if ((command.callbackId != nil) && ![command.callbackId isEqualToString:@"INVALID"]) {
         jsWrapper = [NSString stringWithFormat:@"(function(d) { var c = d.createElement('script'); c.src = %%@; c.onload = function() { _cdvIframeBridge.src='gap-iab://%@'; }; d.body.appendChild(c); })(document)", command.callbackId];
@@ -376,11 +399,14 @@
 
 - (void)webViewDidStartLoad:(UIWebView*)theWebView
 {
+    NSLog(@"webViewDidStartLoad");
     _injectedIframeBridge = NO;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {
+    
+     NSLog(@"webViewDidFinishLoad");
     if (self.callbackId != nil) {
         // TODO: It would be more useful to return the URL the page is actually on (e.g. if it's been redirected).
         NSString* url = [self.inAppBrowserViewController.currentURL absoluteString];
@@ -429,8 +455,13 @@
 @end
 
 #pragma mark CDVInAppBrowserViewController
+@interface CDVInAppBrowserViewController()
+@property WebViewJavascriptBridge* bridge;
+@end
+
 
 @implementation CDVInAppBrowserViewController
+
 
 @synthesize currentURL;
 
@@ -473,6 +504,28 @@
     self.webView.opaque = YES;
     self.webView.scalesPageToFit = NO;
     self.webView.userInteractionEnabled = YES;
+    
+    
+    //added by steven for js bridge 13-06-2014
+    
+//    WebScriptObject *wso = self.webView.windowScriptObject;
+//    [wso setValue:[WebScriptBridge getWebScriptBridge] forKey:@"yourBridge"];
+    
+    if(_bridge){
+        NSLog(@"bridge is exist");
+        
+    }else{
+    [WebViewJavascriptBridge enableLogging];
+    _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"Received message from javascript: %@", data);
+        responseCallback(@"Right back atcha");
+    }];
+    }
+    
+    //add end
+    
+    
+    NSLog(@"self.webView   createViews");
 
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     self.spinner.alpha = 1.000;

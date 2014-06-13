@@ -52,7 +52,10 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		83D6F0AAA91F4DDEB94BDB56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		FF33B853194A859B009F058B /* WebScriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FF33B852194A859B009F058B /* WebScriptBridge.m */; };
 		FF5A24AC19496ACD00B4E17D /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5A24AB19496ACD00B4E17D /* CDVLogger.m */; };
+		FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */; };
+		FFB02FEA194982D4008D1C28 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,8 +140,13 @@
 		8D1107310486CEB800E47090 /* REB iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "REB iOS-Info.plist"; path = "../REB iOS-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "REB iOS/config.xml"; sourceTree = "<group>"; };
+		FF33B851194A852F009F058B /* WebScriptBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebScriptBridge.h; sourceTree = "<group>"; };
+		FF33B852194A859B009F058B /* WebScriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebScriptBridge.m; sourceTree = "<group>"; };
 		FF5A24AB19496ACD00B4E17D /* CDVLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		FF5A24AD19496B2500B4E17D /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
+		FFB02FE6194982D4008D1C28 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,11 +171,14 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FFB02FE5194982D4008D1C28 /* WebViewJavascriptBridge */,
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
 				302D95F014D2391D003F00A1 /* MainViewController.xib */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
+				FF33B851194A852F009F058B /* WebScriptBridge.h */,
+				FF33B852194A859B009F058B /* WebScriptBridge.m */,
 			);
 			name = Classes;
 			path = "REB iOS/Classes";
@@ -341,6 +352,17 @@
 			path = se.lproj;
 			sourceTree = "<group>";
 		};
+		FFB02FE5194982D4008D1C28 /* WebViewJavascriptBridge */ = {
+			isa = PBXGroup;
+			children = (
+				FFB02FE6194982D4008D1C28 /* WebViewJavascriptBridge.h */,
+				FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */,
+				FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */,
+			);
+			name = WebViewJavascriptBridge;
+			path = ../../../../../../WebViewJavascriptBridge/WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -430,6 +452,7 @@
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
+				FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
@@ -473,8 +496,10 @@
 			files = (
 				FF5A24AC19496ACD00B4E17D /* CDVLogger.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				FF33B853194A859B009F058B /* WebScriptBridge.m in Sources */,
 				2187E87418E8F32A005ABAE6 /* CDVInAppBrowser.m in Sources */,
 				2187E88618E8F3E3005ABAE6 /* CDVLocalFilesystem.m in Sources */,
+				FFB02FEA194982D4008D1C28 /* WebViewJavascriptBridge.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				2187E88518E8F3E3005ABAE6 /* CDVFile.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
