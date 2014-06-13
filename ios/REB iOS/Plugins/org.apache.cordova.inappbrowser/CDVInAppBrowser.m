@@ -21,8 +21,10 @@
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <Cordova/CDVJSON.h>
-#import "WebViewJavascriptBridge.h"
-#import "WebScriptBridge.h"
+#import <Social/Social.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "WebViewJavascriptBridge.h" //source can be found @ https://github.com/gazeing/WebViewJavascriptBridge
+
 
 #define    kInAppBrowserTargetSelf @"_self"
 #define    kInAppBrowserTargetSystem @"_system"
@@ -87,6 +89,16 @@
 	return NO;
 }
 
+-(NSString *) URLEncodeString:(NSString *) str
+{
+    
+    NSMutableString *tempStr = [NSMutableString stringWithString:str];
+    [tempStr replaceOccurrencesOfString:@" " withString:@"+" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [tempStr length])];
+    
+    
+    return [[NSString stringWithFormat:@"%@",tempStr] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 - (void)open:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult;
@@ -101,24 +113,49 @@
 
 
     if (url != nil) {
-        NSLog(@"NSURL* baseUrl = [self.webView.request URL];");
+        
         
         NSURL* baseUrl = [self.webView.request URL];
         
+        //added by steven 13-06-2014
+        //for the issue that cannot open url contains '%'
         
+        NSLog(@"NSURL* baseUrl = %@",baseUrl);
+        NSLog(@"NSURL* url = %@",url);
+        
+//        NSURL *URL = [NSURL URLWithString:url];
+//        //url = [url stringByAddingPercentEscapesUsingDecoding:NSUTF8StringEncoding];
+//        NSString *decodeurl = [[[URL path] lastPathComponent] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSLog(@"decodeurl = %@",decodeurl);
         
         NSURL* absoluteUrl = [[NSURL URLWithString:url relativeToURL:baseUrl] absoluteURL];
         
+        
+//        NSString * urlToGrab = [url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSLog(@"NSString* urlToGrab = %@",urlToGrab);
+//
+//        NSURL *absoluteUrl = [NSURL URLWithString:[urlToGrab stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+
+//        NSURL* absoluteUrl = (NSURL*) url;
+        
+        NSLog(@"absoluteUrl = %@",absoluteUrl);
+        
+        
+        //add end
         if ([self isSystemUrl:absoluteUrl]) {
             target = kInAppBrowserTargetSystem;
         }
 
         if ([target isEqualToString:kInAppBrowserTargetSelf]) {
             [self openInCordovaWebView:absoluteUrl withOptions:options];
+           
         } else if ([target isEqualToString:kInAppBrowserTargetSystem]) {
             [self openInSystem:absoluteUrl];
+            
         } else { // _blank or anything else
             [self openInInAppBrowser:absoluteUrl withOptions:options];
+            
         }
 
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -519,6 +556,7 @@
     _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"Received message from javascript: %@", data);
         responseCallback(@"Right back atcha");
+        [self shareLink:data];
     }];
     }
     
@@ -612,6 +650,48 @@
     [self.view addSubview:self.addressLabel];
     [self.view addSubview:self.spinner];
 }
+
+
+//added by steven 13/06/2014
+- (void) shareLink : (NSString *) data{
+    
+    
+    NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *e;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
+    NSString *action = [dict valueForKey:@"shareAction"];
+    NSString *url = [dict valueForKey:@"shareURL"];
+    NSString *title = [dict valueForKey:@"shareTitle"];
+    
+    NSLog(@"the url = %@",url);
+    
+    [self shareLinkVia:action TitleToDisplay:title UrlToShare:url];
+    
+}
+
+- (void) shareLinkVia : (NSString *) action TitleToDisplay:(NSString*)title UrlToShare:(NSString*)urlString{
+    if(urlString==NULL){return;}
+    if ([action isEqual:@"facebook"]) {
+
+        SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+        [composeViewController setInitialText:title];
+        if (urlString != (id)[NSNull null]) {
+//            [composeViewController addURL:[NSURL URLWithString:urlString]];
+            [composeViewController addURL:[NSURL URLWithString:@"https://www.google.com"]];
+        }
+        [self presentViewController:composeViewController animated:YES completion:nil];
+        [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
+            // now check for availability of the app and invoke the correct callback
+
+            
+            NSLog(@"composeViewController finish: %@",result);
+        }];
+        
+    }
+}
+
+
+//add end
 
 - (void) setWebViewFrame : (CGRect) frame {
     NSLog(@"Setting the WebView's frame to %@", NSStringFromCGRect(frame));
