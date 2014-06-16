@@ -21,6 +21,7 @@
 #import <Cordova/CDVInvokedUrlCommand.h>
 #import <Cordova/CDVScreenOrientationDelegate.h>
 #import <Cordova/CDVWebViewDelegate.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 @class CDVInAppBrowserViewController;
 
@@ -61,15 +62,27 @@
 
 @end
 
-@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate>{
+
+
+
+@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate>{
     @private
     NSString* _userAgent;
     NSString* _prevUserAgent;
     NSInteger _userAgentLockToken;
     CDVInAppBrowserOptions *_browserOptions;
     CDVWebViewDelegate* _webViewDelegate;
+    
+    UIPickerView *myPickerView;
+    
+    NSString *shareUrl ;
+    NSString *shareTitle ;
+    
+    NSArray *shareApps;
+
 }
 
+@property (retain, nonatomic) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UIWebView* webView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem* closeButton;
 @property (nonatomic, strong) IBOutlet UILabel* addressLabel;
@@ -87,6 +100,7 @@
 - (void)showLocationBar:(BOOL)show;
 - (void)showToolBar:(BOOL)show : (NSString *) toolbarPosition;
 - (void)setCloseButtonTitle:(NSString*)title;
+
 
 - (id)initWithUserAgent:(NSString*)userAgent prevUserAgent:(NSString*)prevUserAgent browserOptions: (CDVInAppBrowserOptions*) browserOptions;
 

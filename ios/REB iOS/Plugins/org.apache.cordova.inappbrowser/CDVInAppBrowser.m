@@ -24,6 +24,12 @@
 #import <Social/Social.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "WebViewJavascriptBridge.h" //source can be found @ https://github.com/gazeing/WebViewJavascriptBridge
+#import <Foundation/NSException.h>
+#import <MessageUI/MFMessageComposeViewController.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+//#import "MISLinkedinShare.h"
+
 
 
 #define    kInAppBrowserTargetSelf @"_self"
@@ -560,6 +566,22 @@
     }];
     }
     
+    
+    //add pickerView
+    
+    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 300,300, 616)];
+    myPickerView.backgroundColor = [UIColor whiteColor];
+    myPickerView.delegate = self;
+    myPickerView.showsSelectionIndicator = YES;
+    
+    shareApps = [NSArray arrayWithObjects:
+             @"Facebook",
+             @"Twitter",
+             @"Whatsapp",
+            @"Email",
+             nil];
+
+    
     //add end
     
     
@@ -653,6 +675,15 @@
 
 
 //added by steven 13/06/2014
+
+//static inline BOOL IsEmpty(id thing) {
+//    return thing == nil
+//    || ([thing respondsToSelector:@selector(length)]
+//        && [(NSData *)thing length] == 0)
+//    || ([thing respondsToSelector:@selector(count)]
+//        && [(NSArray *)thing count] == 0);
+//}
+
 - (void) shareLink : (NSString *) data{
     
     
@@ -660,12 +691,26 @@
     NSError *e;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
     NSString *action = [dict valueForKey:@"shareAction"];
-    NSString *url = [dict valueForKey:@"shareURL"];
-    NSString *title = [dict valueForKey:@"shareTitle"];
+    shareUrl = [dict valueForKey:@"shareURL"];
+    shareTitle  = [dict valueForKey:@"shareTitle"];
     
-    NSLog(@"the url = %@",url);
+    NSLog(@"the action = %@",action);
+    NSLog(@"the url = %@",shareUrl);
+    NSLog(@"the title = %@",shareUrl);
     
-    [self shareLinkVia:action TitleToDisplay:title UrlToShare:url];
+    if (![shareUrl length]==0) {
+        if(![myPickerView isEqual:[NSNull null]]){
+
+            [self.view addSubview:myPickerView];
+
+            
+        }
+        
+}
+    
+
+    
+//    [self shareLinkVia:action TitleToDisplay:title UrlToShare:url];
     
 }
 
@@ -677,17 +722,215 @@
         [composeViewController setInitialText:title];
         if (urlString != (id)[NSNull null]) {
 //            [composeViewController addURL:[NSURL URLWithString:urlString]];
-            [composeViewController addURL:[NSURL URLWithString:@"https://www.google.com"]];
+            [composeViewController addURL:[NSURL URLWithString:urlString]];
         }
         [self presentViewController:composeViewController animated:YES completion:nil];
         [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
             // now check for availability of the app and invoke the correct callback
 
             
-            NSLog(@"composeViewController finish: %@",result);
+            NSLog(@"composeViewController finish: %d",result);
         }];
         
+    }else if ([action isEqual:@"twitter"]){
+        SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [composeViewController setInitialText:title];
+        if (urlString != (id)[NSNull null]) {
+            //            [composeViewController addURL:[NSURL URLWithString:urlString]];
+            [composeViewController addURL:[NSURL URLWithString:urlString]];
+        }
+        [self presentViewController:composeViewController animated:YES completion:nil];
+        [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
+            // now check for availability of the app and invoke the correct callback
+            
+            
+            NSLog(@"composeViewController finish: %d",result);
+        }];
+
+        
+    }else if ([action isEqual:@"whatsapp"]){
+        
+        [self shareViaWhatsApp:title UrlToShare:urlString];
+    }else if ([action isEqual:@"email"]){
+        
+        [self shareViaEmail:title UrlToShare:urlString];
     }
+}
+
+
+
+
+- (bool)isEmailAvailable {
+    Class messageClass = (NSClassFromString(@"MFMailComposeViewController"));
+    return messageClass != nil && [messageClass canSendMail];
+}
+- (void)shareViaEmail:(NSString*)title UrlToShare:(NSString*)urlString {
+    if ([self isEmailAvailable]) {
+        MFMailComposeViewController* draft = [[MFMailComposeViewController alloc] init];
+        draft.mailComposeDelegate = self;
+        
+        if (urlString != (id)[NSNull null]) {
+            NSString *message =urlString;
+            BOOL isHTML = [message rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch].location != NSNotFound;
+            [draft setMessageBody:message isHTML:isHTML];
+        }
+        
+        if (title != (id)[NSNull null]) {
+            [draft setSubject: title];
+        }
+        
+//        if ([command.arguments objectAtIndex:2] != (id)[NSNull null]) {
+//            [draft setToRecipients:[command.arguments objectAtIndex:2]];
+//        }
+//        
+//        if ([command.arguments objectAtIndex:3] != (id)[NSNull null]) {
+//            [draft setCcRecipients:[command.arguments objectAtIndex:3]];
+//        }
+//        
+//        if ([command.arguments objectAtIndex:4] != (id)[NSNull null]) {
+//            [draft setBccRecipients:[command.arguments objectAtIndex:4]];
+//        }
+        
+//        if ([command.arguments objectAtIndex:5] != (id)[NSNull null]) {
+//            NSArray* attachments = [command.arguments objectAtIndex:5];
+//            NSFileManager* fileManager = [NSFileManager defaultManager];
+//            for (NSString* path in attachments) {
+//                NSURL *file = [self getFile:path];
+//                NSData* data = [fileManager contentsAtPath:file.path];
+//                
+//                NSString* basename = [self getBasenameFromAttachmentPath:path];
+//                NSString* fileName = [basename pathComponents].lastObject;
+//                NSString* mimeType = [self getMimeTypeFromFileExtension:[basename pathExtension]];
+//                
+//                [draft addAttachmentData:data mimeType:mimeType fileName:fileName];
+//            }
+//        }
+        
+        // remember the command, because we need it in the didFinishWithResult method
+//        _command = command;
+//        
+//        [self.commandDelegate runInBackground:^{
+//            [self.viewController presentViewController:draft animated:YES completion:NULL];
+//       }];
+        
+        if (draft) [self presentModalViewController:draft animated:YES];
+//        [draft release];
+        
+    } else {
+//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
+//        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+    }
+
+
+}
+
+/**
+ * Delegate will be called after the mail composer did finish an action
+ * to dismiss the view.
+ */
+- (void) mailComposeController:(MFMailComposeViewController*)controller
+           didFinishWithResult:(MFMailComposeResult)result
+                         error:(NSError*)error {
+//    bool ok = result == MFMailComposeResultSent;
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+
+- (bool)canShareViaWhatsApp {
+    return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"whatsapp://app"]];
+}
+
+- (void)shareViaWhatsApp:(NSString*)title UrlToShare:(NSString*)urlString {
+    if ([self canShareViaWhatsApp]) {
+        NSString *message   = title;
+        // subject is not supported by the SLComposeViewController
+//        NSString *fileName  = [command.arguments objectAtIndex:2];
+//        NSString *urlString = urlString;
+        
+//        // with WhatsApp, we can share an image OR text+url.. image wins if set
+//        UIImage* image = [self getImage:fileName];
+//        if (image != nil) {
+//            NSString * savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/whatsAppTmp.wai"];
+//            [UIImageJPEGRepresentation(image, 1.0) writeToFile:savePath atomically:YES];
+//            _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:savePath]];
+//            _documentInteractionController.UTI = @"net.whatsapp.image";
+//            [_documentInteractionController presentOpenInMenuFromRect:CGRectMake(0, 0, 0, 0) inView:self.viewController.view animated: YES];
+//        } else
+        {
+            // append an url to a message, if both are passed
+            NSString * shareString = @"";
+            if (message != (id)[NSNull null]) {
+                shareString = message;
+            }
+            if (urlString != (id)[NSNull null]) {
+                if ([shareString isEqual: @""]) {
+                    shareString = urlString;
+                } else {
+                    shareString = [NSString stringWithFormat:@"%@ %@", shareString, urlString];
+                }
+            }
+            NSString * encodedShareString = [shareString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            // also encode the '=' character
+            encodedShareString = [encodedShareString stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
+            NSString * encodedShareStringForWhatsApp = [NSString stringWithFormat:@"whatsapp://send?text=%@", encodedShareString];
+            
+            NSURL *whatsappURL = [NSURL URLWithString:encodedShareStringForWhatsApp];
+            [[UIApplication sharedApplication] openURL: whatsappURL];
+        }
+//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+//        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+        
+    } else {
+//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
+//        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+    }
+}
+
+//implementation for picker view
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+    // Handle the selection
+    NSLog(@"didSelectRow : %ld",(long)row);
+    
+    [self shareLinkVia:[[shareApps objectAtIndex:row] lowercaseString] TitleToDisplay:shareTitle UrlToShare:shareUrl];
+    
+    
+    [myPickerView removeFromSuperview];
+
+}
+
+// tell the picker how many rows are available for a given component
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+//    NSUInteger numRows = 5;
+    
+    return [shareApps count];
+}
+
+// tell the picker how many components it will have
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+// tell the picker the title for a given component
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSString *title;
+    title = [shareApps objectAtIndex:row];
+    
+    return title;
+}
+
+// tell the picker the width of each row for a given component
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    int sectionWidth = 300;
+    
+    return sectionWidth;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 
