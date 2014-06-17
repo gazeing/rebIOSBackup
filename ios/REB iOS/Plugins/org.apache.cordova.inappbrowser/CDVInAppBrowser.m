@@ -29,6 +29,8 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 //#import "MISLinkedinShare.h"
+#import <GoogleOpenSource/GoogleOpenSource.h>
+#import <GooglePlus/GooglePlus.h>
 
 
 
@@ -569,17 +571,9 @@
     
     //add pickerView
     
-    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 300,300, 616)];
-    myPickerView.backgroundColor = [UIColor whiteColor];
-    myPickerView.delegate = self;
-    myPickerView.showsSelectionIndicator = YES;
+    [self createPickerView];
     
-    shareApps = [NSArray arrayWithObjects:
-             @"Facebook",
-             @"Twitter",
-             @"Whatsapp",
-            @"Email",
-             nil];
+   
 
     
     //add end
@@ -674,15 +668,36 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //added by steven 13/06/2014
 
-//static inline BOOL IsEmpty(id thing) {
-//    return thing == nil
-//    || ([thing respondsToSelector:@selector(length)]
-//        && [(NSData *)thing length] == 0)
-//    || ([thing respondsToSelector:@selector(count)]
-//        && [(NSArray *)thing count] == 0);
-//}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+}
+
 
 - (void) shareLink : (NSString *) data{
     
@@ -755,9 +770,92 @@
         
         [self shareViaEmail:title UrlToShare:urlString];
     }
+    else if ([action isEqual:@"google+"]){
+        
+        [self shareViaGooglePlus:title UrlToShare:urlString];
+    }
+    else if ([action isEqual:@"linkedin"]){
+        
+        [self shareViaLinkedIn:title UrlToShare:urlString];
+    }
 }
 
 
+
+- (void) shareViaLinkedIn:(NSString*)title UrlToShare:(NSString*)urlString{
+    
+    
+    NSString *linkedinLink = @"http://www.linkedin.com/shareArticle?mini=true&url=";
+    linkedinLink = [linkedinLink stringByAppendingString:urlString];
+    linkedinLink = [linkedinLink stringByAppendingString:@"&title="];
+    linkedinLink = [linkedinLink stringByAppendingString:title];
+
+    NSLog(@"linkedinLink =  %@",linkedinLink);
+    NSString* webStringURL = [linkedinLink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"webStringURL =  %@",webStringURL);
+    NSURL *url = [NSURL URLWithString:webStringURL];
+    NSLog(@"url =  %@",url);
+    
+    if (![[UIApplication sharedApplication] openURL:url]){
+        
+        NSLog(@"%@%@",@"Failed to open url:",[url description]);
+        [self showAlert :@"Failed to share url:"];
+    }
+}
+
+
+
+-(void)googlePlusSignIn{
+    signIn = [GPPSignIn sharedInstance];
+    signIn.shouldFetchGooglePlusUser = YES;
+    //signIn.shouldFetchGoogleUserEmail = YES;  // Uncomment to get the user's email
+    
+    // You previously set kClientId in the "Initialize the Google+ client" step
+    signIn.clientID = @"1054240877036-e2nprkqhn5p5n2cieg6ph6lr8e846f0o.apps.googleusercontent.com";
+    //    signIn.clientID = kClientId;
+    // Uncomment one of these two statements for the scope you chose in the previous step
+    signIn.scopes = @[ kGTLAuthScopePlusLogin ];  // "https://www.googleapis.com/auth/plus.login" scope
+//    signIn.scopes = @[ @"profile" ];            // "profile" scope
+    
+    // Optional: declare signIn.actions, see "app activities"
+    signIn.delegate = self;
+    [signIn authenticate];
+}
+- (void)finishedWithAuth: (GTMOAuth2Authentication *)auth
+                   error: (NSError *) error {
+    if (error) {
+        NSLog(@"Received error %@ and auth object %@",error, auth);
+        [self showAlert :@"Google+ is not working on your phone, please check it."];
+    }else{
+        NSLog(@"login success %@", auth);
+        [self shareViaGooglePlus:shareTitle UrlToShare:shareUrl];
+        
+    }
+}
+
+- (void)presentSignInViewController:(UIViewController *)viewController {
+    // This is an example of how you can implement it if your app is navigation-based.
+    [[self navigationController] pushViewController:viewController animated:YES];
+}
+
+-(void)shareViaGooglePlus:(NSString*)title UrlToShare:(NSString*)urlString{
+
+    if (!signIn.authentication) {
+         [self googlePlusSignIn];
+    }
+    else{
+//        [signIn trySilentAuthentication];
+
+        id<GPPNativeShareBuilder> shareBuilder = [[GPPShare sharedInstance] nativeShareDialog];
+        
+        // This line will fill out the title, description, and thumbnail from
+        // the URL that you are sharing and includes a link to that URL.
+        [shareBuilder setURLToShare:[NSURL URLWithString:urlString]];
+        
+        [shareBuilder open];
+    }
+
+}
 
 
 - (bool)isEmailAvailable {
@@ -779,46 +877,13 @@
             [draft setSubject: title];
         }
         
-//        if ([command.arguments objectAtIndex:2] != (id)[NSNull null]) {
-//            [draft setToRecipients:[command.arguments objectAtIndex:2]];
-//        }
-//        
-//        if ([command.arguments objectAtIndex:3] != (id)[NSNull null]) {
-//            [draft setCcRecipients:[command.arguments objectAtIndex:3]];
-//        }
-//        
-//        if ([command.arguments objectAtIndex:4] != (id)[NSNull null]) {
-//            [draft setBccRecipients:[command.arguments objectAtIndex:4]];
-//        }
-        
-//        if ([command.arguments objectAtIndex:5] != (id)[NSNull null]) {
-//            NSArray* attachments = [command.arguments objectAtIndex:5];
-//            NSFileManager* fileManager = [NSFileManager defaultManager];
-//            for (NSString* path in attachments) {
-//                NSURL *file = [self getFile:path];
-//                NSData* data = [fileManager contentsAtPath:file.path];
-//                
-//                NSString* basename = [self getBasenameFromAttachmentPath:path];
-//                NSString* fileName = [basename pathComponents].lastObject;
-//                NSString* mimeType = [self getMimeTypeFromFileExtension:[basename pathExtension]];
-//                
-//                [draft addAttachmentData:data mimeType:mimeType fileName:fileName];
-//            }
-//        }
-        
-        // remember the command, because we need it in the didFinishWithResult method
-//        _command = command;
-//        
-//        [self.commandDelegate runInBackground:^{
-//            [self.viewController presentViewController:draft animated:YES completion:NULL];
-//       }];
+
         
         if (draft) [self presentModalViewController:draft animated:YES];
-//        [draft release];
+
         
     } else {
-//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
-//        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+        [self showAlert :@"Mail is not working on your phone, please check it."];
     }
 
 
@@ -844,19 +909,7 @@
 - (void)shareViaWhatsApp:(NSString*)title UrlToShare:(NSString*)urlString {
     if ([self canShareViaWhatsApp]) {
         NSString *message   = title;
-        // subject is not supported by the SLComposeViewController
-//        NSString *fileName  = [command.arguments objectAtIndex:2];
-//        NSString *urlString = urlString;
-        
-//        // with WhatsApp, we can share an image OR text+url.. image wins if set
-//        UIImage* image = [self getImage:fileName];
-//        if (image != nil) {
-//            NSString * savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/whatsAppTmp.wai"];
-//            [UIImageJPEGRepresentation(image, 1.0) writeToFile:savePath atomically:YES];
-//            _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:savePath]];
-//            _documentInteractionController.UTI = @"net.whatsapp.image";
-//            [_documentInteractionController presentOpenInMenuFromRect:CGRectMake(0, 0, 0, 0) inView:self.viewController.view animated: YES];
-//        } else
+
         {
             // append an url to a message, if both are passed
             NSString * shareString = @"";
@@ -878,24 +931,62 @@
             NSURL *whatsappURL = [NSURL URLWithString:encodedShareStringForWhatsApp];
             [[UIApplication sharedApplication] openURL: whatsappURL];
         }
-//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+
         
     } else {
-//        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
-//        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+        
+        [self showAlert :@"WhatsApp is not working on your phone, please check it."];
+
     }
 }
 
+-(void) showAlert:(NSString *) alertMsg{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                    message:alertMsg
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
 //implementation for picker view
+
+- (void)createPickerView{
+    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 300,300, 616)];
+    myPickerView.backgroundColor = [UIColor whiteColor];
+    myPickerView.delegate = self;
+    myPickerView.showsSelectionIndicator = YES;
+    
+    
+    shareApps = [NSArray arrayWithObjects:
+                 @"Facebook",
+                 @"Twitter",
+                 @"Whatsapp",
+                 @"Email",
+                 @"Google+",
+                 @"LinkedIn",
+                 nil];
+}
+
+//- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+//    UILabel* label = (UILabel*)view;
+//    if (view == nil){
+//        label= [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 190, 44)];
+//        
+////        label.textAlignment = UITextAlignmentRight;
+//        //Set other properties if you need like font, text color etc
+////        ...
+//    }
+//    label.text = @"test title";
+//    return label;
+//}
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     NSLog(@"didSelectRow : %ld",(long)row);
     
     [self shareLinkVia:[[shareApps objectAtIndex:row] lowercaseString] TitleToDisplay:shareTitle UrlToShare:shareUrl];
-    
-    
     [myPickerView removeFromSuperview];
 
 }
@@ -934,7 +1025,32 @@
 }
 
 
+
+
 //add end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void) setWebViewFrame : (CGRect) frame {
     NSLog(@"Setting the WebView's frame to %@", NSStringFromCGRect(frame));
@@ -1067,10 +1183,6 @@
     }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
 
 - (void)viewDidUnload
 {

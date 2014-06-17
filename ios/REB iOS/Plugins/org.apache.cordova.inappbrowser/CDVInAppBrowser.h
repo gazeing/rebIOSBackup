@@ -22,6 +22,8 @@
 #import <Cordova/CDVScreenOrientationDelegate.h>
 #import <Cordova/CDVWebViewDelegate.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import <GooglePlus/GooglePlus.h>
+
 
 @class CDVInAppBrowserViewController;
 
@@ -65,7 +67,7 @@
 
 
 
-@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate>{
+@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate,GPPSignInDelegate>{
     @private
     NSString* _userAgent;
     NSString* _prevUserAgent;
@@ -79,6 +81,7 @@
     NSString *shareTitle ;
     
     NSArray *shareApps;
+    GPPSignIn *signIn;
 
 }
 

@@ -50,12 +50,22 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
-		83D6F0AAA91F4DDEB94BDB56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		83D6F0AAA91F4DDEB94BDB56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 		FF5A24AC19496ACD00B4E17D /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5A24AB19496ACD00B4E17D /* CDVLogger.m */; };
+		FF68FEF6194ECD1A0013C969 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEF5194ECD1A0013C969 /* AddressBook.framework */; };
+		FF68FEF8194ECD300013C969 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEF7194ECD300013C969 /* Foundation.framework */; };
+		FF68FEFA194ECD490013C969 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEF9194ECD490013C969 /* CoreMotion.framework */; };
+		FF68FEFC194ECD5E0013C969 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEFB194ECD5E0013C969 /* CoreText.framework */; };
+		FF68FEFE194ECD6C0013C969 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEFD194ECD6C0013C969 /* MediaPlayer.framework */; };
+		FF68FF00194ECD760013C969 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEFF194ECD760013C969 /* Security.framework */; };
+		FF68FF03194ECDC40013C969 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FF01194ECDC40013C969 /* GoogleOpenSource.framework */; };
+		FF68FF04194ECDC40013C969 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FF02194ECDC40013C969 /* GooglePlus.framework */; };
+		FF82C3A0194FC3B6004E990A /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF82C39F194FC3B6004E990A /* GooglePlus.bundle */; };
 		FFADFEAB194AD10500D6DCF8 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFADFEAA194AD10500D6DCF8 /* Social.framework */; };
 		FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */; };
 		FFB02FEA194982D4008D1C28 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */; };
+		FFB876E1194EA41600BD1CD4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFB876E0194EA41600BD1CD4 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,10 +152,20 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "REB iOS/config.xml"; sourceTree = "<group>"; };
 		FF5A24AB19496ACD00B4E17D /* CDVLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		FF5A24AD19496B2500B4E17D /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
+		FF68FEF5194ECD1A0013C969 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		FF68FEF7194ECD300013C969 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FF68FEF9194ECD490013C969 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		FF68FEFB194ECD5E0013C969 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		FF68FEFD194ECD6C0013C969 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		FF68FEFF194ECD760013C969 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FF68FF01194ECDC40013C969 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "../../../../../../Downloads/google-plus-ios-sdk-1.5.1/GoogleOpenSource.framework"; sourceTree = "<group>"; };
+		FF68FF02194ECDC40013C969 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "../../../../../../Downloads/google-plus-ios-sdk-1.5.1/GooglePlus.framework"; sourceTree = "<group>"; };
+		FF82C39F194FC3B6004E990A /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "../../../../../../Downloads/google-plus-ios-sdk-1.5.1/GooglePlus.bundle"; sourceTree = "<group>"; };
 		FFADFEAA194AD10500D6DCF8 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FFB02FE6194982D4008D1C28 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		FFB876E0194EA41600BD1CD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,13 +173,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFADFEAB194AD10500D6DCF8 /* Social.framework in Frameworks */,
 				21F679B018C596B700B9E345 /* UIKit.framework in Frameworks */,
-				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
-				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				FF68FF00194ECD760013C969 /* Security.framework in Frameworks */,
+				FF68FEFE194ECD6C0013C969 /* MediaPlayer.framework in Frameworks */,
+				FF68FEFC194ECD5E0013C969 /* CoreText.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
-				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
+				FF68FEFA194ECD490013C969 /* CoreMotion.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
+				FF68FF04194ECDC40013C969 /* GooglePlus.framework in Frameworks */,
+				FF68FEF8194ECD300013C969 /* Foundation.framework in Frameworks */,
+				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
+				FF68FEF6194ECD1A0013C969 /* AddressBook.framework in Frameworks */,
+				FFB876E1194EA41600BD1CD4 /* MessageUI.framework in Frameworks */,
+				FFADFEAB194AD10500D6DCF8 /* Social.framework in Frameworks */,
+				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				FF68FF03194ECDC40013C969 /* GoogleOpenSource.framework in Frameworks */,
+				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				0D2A5A6A5A2342C791F7142C /* AudioToolbox.framework in Frameworks */,
 				83D6F0AAA91F4DDEB94BDB56 /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -252,6 +281,16 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FF82C39F194FC3B6004E990A /* GooglePlus.bundle */,
+				FF68FF01194ECDC40013C969 /* GoogleOpenSource.framework */,
+				FF68FF02194ECDC40013C969 /* GooglePlus.framework */,
+				FF68FEFF194ECD760013C969 /* Security.framework */,
+				FF68FEFD194ECD6C0013C969 /* MediaPlayer.framework */,
+				FF68FEFB194ECD5E0013C969 /* CoreText.framework */,
+				FF68FEF9194ECD490013C969 /* CoreMotion.framework */,
+				FF68FEF7194ECD300013C969 /* Foundation.framework */,
+				FF68FEF5194ECD1A0013C969 /* AddressBook.framework */,
+				FFB876E0194EA41600BD1CD4 /* MessageUI.framework */,
 				FFADFEAA194AD10500D6DCF8 /* Social.framework */,
 				21F679AF18C596B700B9E345 /* UIKit.framework */,
 				5AEE5B34173C68D80009041E /* CoreLocation.framework */,
@@ -451,6 +490,7 @@
 				F840E1F1165FE0F500CFE078 /* config.xml in Resources */,
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
+				FF82C3A0194FC3B6004E990A /* GooglePlus.bundle in Resources */,
 				FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
@@ -565,6 +605,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/zhengxingxu/Downloads/google-plus-ios-sdk-1.5.1",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -609,6 +653,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/zhengxingxu/Downloads/google-plus-ios-sdk-1.5.1",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "REB iOS/REB iOS-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;

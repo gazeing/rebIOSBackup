@@ -29,6 +29,8 @@
 #import "MainViewController.h"
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVUserAgentUtil.h>
+#import <GooglePlus/GooglePlus.h>
+
 
 @implementation AppDelegate
 
@@ -102,6 +104,17 @@
 
     return YES;
 }
+
+//added by steven 13/06/2014
+- (BOOL)application: (UIApplication *)application
+            openURL: (NSURL *)url
+  sourceApplication: (NSString *)sourceApplication
+         annotation: (id)annotation {
+    return [GPPURLHandler handleURL:url
+                  sourceApplication:sourceApplication
+                         annotation:annotation];
+}
+
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if REB iOS-Info.plist specifies a protocol to handle
