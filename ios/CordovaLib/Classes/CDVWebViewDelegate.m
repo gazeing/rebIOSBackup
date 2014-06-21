@@ -278,6 +278,7 @@ typedef enum {
 
 - (void)webViewDidStartLoad:(UIWebView*)webView
 {
+    NSLog(@"webViewDidStartLoad---library");
     VerboseLog(@"webView didStartLoad (before). state=%d loadCount=%d", _state, _loadCount);
     BOOL fireCallback = NO;
     switch (_state) {
@@ -335,6 +336,7 @@ typedef enum {
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
+     NSLog(@"webViewDidFinishLoad---library");
     VerboseLog(@"webView didFinishLoad (before). state=%d loadCount=%d", _state, _loadCount);
     BOOL fireCallback = NO;
     switch (_state) {
@@ -369,6 +371,7 @@ typedef enum {
 
 - (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error
 {
+     NSLog(@"didFailLoadWithError---library");
     VerboseLog(@"webView didFailLoad (before). state=%d loadCount=%d", _state, _loadCount);
     BOOL fireCallback = NO;
 

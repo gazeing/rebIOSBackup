@@ -23,6 +23,7 @@
 #import <Cordova/CDVWebViewDelegate.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <GooglePlus/GooglePlus.h>
+//#import "WebViewJavascriptBridge.h" 
 
 
 @class CDVInAppBrowserViewController;
@@ -30,6 +31,7 @@
 @interface CDVInAppBrowser : CDVPlugin {
     BOOL _injectedIframeBridge;
 }
+
 
 @property (nonatomic, retain) CDVInAppBrowserViewController* inAppBrowserViewController;
 @property (nonatomic, copy) NSString* callbackId;
@@ -48,6 +50,8 @@
 @property (nonatomic, assign) BOOL toolbar;
 @property (nonatomic, copy) NSString* closebuttoncaption;
 @property (nonatomic, copy) NSString* toolbarposition;
+@property (nonatomic, assign) BOOL clearcache;
+@property (nonatomic, assign) BOOL clearsessioncache;
 
 @property (nonatomic, copy) NSString* presentationstyle;
 @property (nonatomic, copy) NSString* transitionstyle;
@@ -67,7 +71,7 @@
 
 
 
-@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate,GPPSignInDelegate>{
+@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate,GPPSignInDelegate, CDVScreenOrientationDelegate>{
     @private
     NSString* _userAgent;
     NSString* _prevUserAgent;
@@ -85,6 +89,7 @@
 
 }
 
+//@property (retain, nonatomic) WebViewJavascriptBridge* bridge;
 @property (retain, nonatomic) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UIWebView* webView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem* closeButton;
@@ -108,3 +113,10 @@
 - (id)initWithUserAgent:(NSString*)userAgent prevUserAgent:(NSString*)prevUserAgent browserOptions: (CDVInAppBrowserOptions*) browserOptions;
 
 @end
+
+@interface CDVInAppBrowserNavigationController : UINavigationController
+
+@property (nonatomic, weak) id <CDVScreenOrientationDelegate> orientationDelegate;
+
+@end
+

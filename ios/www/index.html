@@ -112,10 +112,13 @@
                 var loadURL='http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
                 //alert(loadURL);
                 
-                loadURL='http://www.rebonline.com.au/steven/testf'+'?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+                // loadURL='http://www.rebonline.com.au/steven/testi'+'?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+
+                loadURL='http://www.google.com.au';
+
                 
                 console.log('LoadURL='+loadURL);
-                ref = window.open(loadURL,'_blank','location=no,toolbar=no,hidden=yes');
+                ref = window.open(loadURL,'_blank','location=yes,toolbar=yes,hidden=yes');
                 addInAppBrowserListeners(ref,timeOutPeriod);
              
             }
