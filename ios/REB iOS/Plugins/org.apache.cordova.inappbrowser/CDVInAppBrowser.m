@@ -677,8 +677,8 @@
     self.backButton.imageInsets = UIEdgeInsetsZero;
 
     //added by steven 20-06-2014 to remove closebutton
-//    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
-    [self.toolbar setItems:@[ flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+//    [self.toolbar setItems:@[ flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
 
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.toolbar];
@@ -1295,6 +1295,7 @@
     wvPopUp = nil;
     //restore the default setting of toolbar
     [self showToolBar:self.defaultBrowserOptions.toolbar  :self.defaultBrowserOptions.toolbarposition];
+    [self showLocationBar:self.defaultBrowserOptions.location];
 }
 
 - (void)close
@@ -1414,9 +1415,9 @@
     NSString *realUrl = request.URL.absoluteString;
     NSLog(@"realUrl: %@", realUrl);
     BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
-            ||[realUrl hasPrefix:@"https://www.facebook.com"]
-            ||[realUrl hasPrefix:@"https://twitter.com"]
-            ||[realUrl hasPrefix:@"https://accounts.google.com"]
+//            ||[realUrl hasPrefix:@"https://www.facebook.com"]
+            ||[realUrl hasPrefix:@"https://twitter.com/oauth/"]
+            ||[realUrl hasPrefix:@"http://disqus.com/_ax"]
             ||[realUrl hasPrefix:@"https://m.facebook.com/"];
     
     // 3. time has been selected - close the pop-up window
@@ -1452,10 +1453,16 @@
 
 - (UIWebView *) popUpWebview
 {
+    CGRect webViewBounds = self.view.bounds;
+//    BOOL toolbarIsAtBottom = ![_browserOptions.toolbarposition isEqualToString:kInAppBrowserToolbarBarPositionTop];
+    webViewBounds.size.height -= true ? FOOTER_HEIGHT : TOOLBAR_HEIGHT;
+//    self.webView = [[UIWebView alloc] initWithFrame:webViewBounds];
     // Create a web view that fills the entire window, minus the toolbar height
     UIWebView *webView = [[UIWebView alloc]
-                          initWithFrame:CGRectMake(0, 0, (float)self.view.bounds.size.width,
-                                                   (float)self.view.bounds.size.height)];
+                          initWithFrame:webViewBounds];
+//                          CGRectMake(0, 0, (float)self.view.bounds.size.width,
+//                                                   (float)self.view.bounds.size.height)];
+    webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     webView.scalesPageToFit = YES;
     webView.delegate = self;
     // Add to windows array and make active window
@@ -1463,7 +1470,8 @@
     
 
     [self.view addSubview:webView];
-    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+//    [self.view sendSubviewToBack:webView];
+//    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
 //    [self.toolbar setItems:@[ flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
     
     self.view.backgroundColor = [UIColor grayColor];
@@ -1471,8 +1479,11 @@
     [self.view addSubview:self.addressLabel];
     [self.view addSubview:self.spinner];
     
-    [self setCloseButtonTitle:@"Close"];
+    [self setCloseButtonTitle:@"Done"];
+    [self.spinner startAnimating];
+    [self showLocationBar:true];
     [self showToolBar:true :self.defaultBrowserOptions.toolbarposition];
+   
     return webView;
 }
 
