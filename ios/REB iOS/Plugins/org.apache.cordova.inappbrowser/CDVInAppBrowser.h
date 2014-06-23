@@ -23,7 +23,7 @@
 #import <Cordova/CDVWebViewDelegate.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import <GooglePlus/GooglePlus.h>
-//#import "WebViewJavascriptBridge.h" 
+#import "WebViewJavascriptBridge.h" //source can be found @ https://github.com/gazeing/WebViewJavascriptBridge
 
 
 @class CDVInAppBrowserViewController;
@@ -86,10 +86,19 @@
     
     NSArray *shareApps;
     GPPSignIn *signIn;
+    
+    //add by steven 23-06-14 for popup window
+    UIWebView *wvPopUp;
+    
+    UIBarButtonItem* flexibleSpaceButton;
+    UIBarButtonItem* fixedSpaceButton;
 
 }
 
-//@property (retain, nonatomic) WebViewJavascriptBridge* bridge;
+//add by steven 23-06-14  to store default browser option for showtoolbar
+@property (retain, nonatomic) CDVInAppBrowserOptions* defaultBrowserOptions;
+//@property (retain, nonatomic) NSString* lastUrlBeforeLogin;
+@property (retain, nonatomic) WebViewJavascriptBridge* bridge;
 @property (retain, nonatomic) NSMutableArray *dataArray;
 @property (nonatomic, strong) IBOutlet UIWebView* webView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem* closeButton;
@@ -98,6 +107,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem* forwardButton;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView* spinner;
 @property (nonatomic, strong) IBOutlet UIToolbar* toolbar;
+
 
 @property (nonatomic, weak) id <CDVScreenOrientationDelegate> orientationDelegate;
 @property (nonatomic, weak) CDVInAppBrowser* navigationDelegate;

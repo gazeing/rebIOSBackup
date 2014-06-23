@@ -46,6 +46,8 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		83D6F0AAA91F4DDEB94BDB56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		FF34F9C21957E27300718998 /* JS1.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF34F9C01957E27300718998 /* JS1.txt */; };
+		FF34F9C31957E27300718998 /* JS2.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF34F9C11957E27300718998 /* JS2.txt */; };
 		FF5A24AC19496ACD00B4E17D /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FF5A24AB19496ACD00B4E17D /* CDVLogger.m */; };
 		FF68FEF6194ECD1A0013C969 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEF5194ECD1A0013C969 /* AddressBook.framework */; };
 		FF68FEF8194ECD300013C969 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF68FEF7194ECD300013C969 /* Foundation.framework */; };
@@ -140,6 +142,8 @@
 		8D1107310486CEB800E47090 /* REB iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "REB iOS-Info.plist"; path = "../REB iOS-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		ECFD5515C00E4A3A80EBF134 /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "REB iOS/config.xml"; sourceTree = "<group>"; };
+		FF34F9C01957E27300718998 /* JS1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = JS1.txt; path = org.apache.cordova.inappbrowser/JS1.txt; sourceTree = "<group>"; };
+		FF34F9C11957E27300718998 /* JS2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = JS2.txt; path = org.apache.cordova.inappbrowser/JS2.txt; sourceTree = "<group>"; };
 		FF5A24AB19496ACD00B4E17D /* CDVLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		FF5A24AD19496B2500B4E17D /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
 		FF68FEF5194ECD1A0013C969 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -326,6 +330,8 @@
 				2187E87918E8F3CA005ABAE6 /* CDVDevice.m */,
 				2187E87518E8F370005ABAE6 /* CDVSplashScreen.h */,
 				2187E87618E8F370005ABAE6 /* CDVSplashScreen.m */,
+				FF34F9C01957E27300718998 /* JS1.txt */,
+				FF34F9C11957E27300718998 /* JS2.txt */,
 				2187E87218E8F32A005ABAE6 /* CDVInAppBrowser.h */,
 				2187E87318E8F32A005ABAE6 /* CDVInAppBrowser.m */,
 			);
@@ -470,6 +476,7 @@
 			files = (
 				21F6797918BF0BA700B9E345 /* Default-568h@2x.png in Resources */,
 				21F6796B18BF095A00B9E345 /* Default-Landscape.png in Resources */,
+				FF34F9C21957E27300718998 /* JS1.txt in Resources */,
 				21F6796C18BF095A00B9E345 /* Default-Landscape@2x.png in Resources */,
 				21F6796D18BF095A00B9E345 /* Default-Portrait.png in Resources */,
 				21F6796E18BF095A00B9E345 /* Default-Portrait@2x.png in Resources */,
@@ -479,6 +486,7 @@
 				FF8978801952C68200E0866B /* Icon-Small.png in Resources */,
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
+				FF34F9C31957E27300718998 /* JS2.txt in Resources */,
 				FF82C3A0194FC3B6004E990A /* GooglePlus.bundle in Resources */,
 				FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,

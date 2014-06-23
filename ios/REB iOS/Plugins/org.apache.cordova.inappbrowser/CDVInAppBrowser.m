@@ -31,6 +31,7 @@
 //#import "MISLinkedinShare.h"
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import <GooglePlus/GooglePlus.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
 
 
@@ -210,6 +211,8 @@
     if (self.inAppBrowserViewController == nil) {
         NSString* originalUA = [CDVUserAgentUtil originalUserAgent];
         self.inAppBrowserViewController = [[CDVInAppBrowserViewController alloc] initWithUserAgent:originalUA prevUserAgent:[self.commandDelegate userAgent] browserOptions: browserOptions];
+        //add by steven 23-06-14  to store default browser option for showtoolbar
+        self.inAppBrowserViewController.defaultBrowserOptions = browserOptions;
         self.inAppBrowserViewController.navigationDelegate = self;
 
         if ([self.viewController conformsToProtocol:@protocol(CDVScreenOrientationDelegate)]) {
@@ -434,7 +437,7 @@
 - (BOOL)webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
     
-    NSLog(@"shouldStartLoadWithRequest");
+//    NSLog(@"shouldStartLoadWithRequest 2");
     NSURL* url = request.URL;
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
 
@@ -478,7 +481,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView*)theWebView
 {
-    NSLog(@"webViewDidStartLoad");
+//    NSLog(@"webViewDidStartLoad");
     _injectedIframeBridge = NO;
 }
 
@@ -590,31 +593,27 @@
     self.webView.scalesPageToFit = NO;
     self.webView.userInteractionEnabled = YES;
     
+    // overwrite the 'window.open' to be a 'open://' URL (see above)
+    NSError *error = nil;
+    NSString *jsFromFile = [NSString stringWithContentsOfURL:[[NSBundle mainBundle]
+                                                              URLForResource:@"JS1" withExtension:@"txt"]
+                                                    encoding:NSUTF8StringEncoding error:&error];
+    __unused NSString *jsOverrides = [self.webView
+                                      stringByEvaluatingJavaScriptFromString:jsFromFile];
+    
     
     NSLog(@"self.webView   createViews");
 
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.spinner.alpha = 1.000;
-    self.spinner.autoresizesSubviews = YES;
-    self.spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-    self.spinner.clearsContextBeforeDrawing = NO;
-    self.spinner.clipsToBounds = NO;
-    self.spinner.contentMode = UIViewContentModeScaleToFill;
-    self.spinner.contentStretch = CGRectFromString(@"{{0, 0}, {1, 1}}");
-    self.spinner.frame = CGRectMake(454.0, 231.0, 20.0, 20.0);
-    self.spinner.hidden = YES;
-    self.spinner.hidesWhenStopped = YES;
-    self.spinner.multipleTouchEnabled = NO;
-    self.spinner.opaque = NO;
-    self.spinner.userInteractionEnabled = NO;
-    [self.spinner stopAnimating];
+    [self createSpinner];
+
 
     self.closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
     self.closeButton.enabled = YES;
 
-    UIBarButtonItem* flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
-    UIBarButtonItem* fixedSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+    fixedSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpaceButton.width = 20;
 
     float toolbarY = toolbarIsAtBottom ? self.view.bounds.size.height - TOOLBAR_HEIGHT : 0.0;
@@ -693,7 +692,7 @@
     //    WebScriptObject *wso = self.webView.windowScriptObject;
     //    [wso setValue:[WebScriptBridge getWebScriptBridge] forKey:@"yourBridge"];
     
-//    [self createJavaScriptBridge];
+    [self createJavaScriptBridge];
     
 
     
@@ -740,19 +739,37 @@
 //    
 //}
 
-//- (void) createJavaScriptBridge{
-//    if(_bridge){
-//        NSLog(@"bridge is exist");
-//        
-//    }else{
-//        [WebViewJavascriptBridge enableLogging];
-//        _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView handler:^(id data, WVJBResponseCallback responseCallback) {
-//            NSLog(@"Received message from javascript: %@", data);
-//            responseCallback(@"Right back atcha");
-//            [self shareLink:data];
-//        }];
-//    }
-//}
+- (void) createSpinner{
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.spinner.alpha = 1.000;
+    self.spinner.autoresizesSubviews = YES;
+    self.spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    self.spinner.clearsContextBeforeDrawing = NO;
+    self.spinner.clipsToBounds = NO;
+    self.spinner.contentMode = UIViewContentModeScaleToFill;
+    self.spinner.contentStretch = CGRectFromString(@"{{0, 0}, {1, 1}}");
+    self.spinner.frame = CGRectMake(454.0, 231.0, 20.0, 20.0);
+    self.spinner.hidden = YES;
+    self.spinner.hidesWhenStopped = YES;
+    self.spinner.multipleTouchEnabled = NO;
+    self.spinner.opaque = NO;
+    self.spinner.userInteractionEnabled = NO;
+    [self.spinner stopAnimating];
+}
+
+- (void) createJavaScriptBridge{
+    if(_bridge){
+        NSLog(@"bridge is exist");
+        
+    }else{
+        [WebViewJavascriptBridge enableLogging];
+        _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self.webView.delegate handler:^(id data, WVJBResponseCallback responseCallback) {
+            NSLog(@"Received message from javascript: %@", data);
+            responseCallback(@"Right back atcha");
+            [self shareLink:data];
+        }];
+    }
+}
 
 
 - (void) shareLink : (NSString *) data{
@@ -1123,7 +1140,7 @@
 
 
 - (void) setWebViewFrame : (CGRect) frame {
-    NSLog(@"Setting the WebView's frame to %@", NSStringFromCGRect(frame));
+//    NSLog(@"Setting the WebView's frame to %@", NSStringFromCGRect(frame));
     [self.webView setFrame:frame];
 }
 
@@ -1273,23 +1290,38 @@
     return UIStatusBarStyleDefault;
 }
 
+- (void)closePopUp{
+    [wvPopUp removeFromSuperview];
+    wvPopUp = nil;
+    //restore the default setting of toolbar
+    [self showToolBar:self.defaultBrowserOptions.toolbar  :self.defaultBrowserOptions.toolbarposition];
+}
+
 - (void)close
 {
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
-    self.currentURL = nil;
-    
-    if ((self.navigationDelegate != nil) && [self.navigationDelegate respondsToSelector:@selector(browserExit)]) {
-        [self.navigationDelegate browserExit];
-    }
+    //added by steven, if the popup window exist, then close it.
+    if (wvPopUp) {
 
-    // Run later to avoid the "took a long time" log message.
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self respondsToSelector:@selector(presentingViewController)]) {
-            [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-        } else {
-            [[self parentViewController] dismissModalViewControllerAnimated:YES];
+        [self closePopUp];
+    }else{
+    
+    
+        [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
+        self.currentURL = nil;
+    
+        if ((self.navigationDelegate != nil) && [self.navigationDelegate respondsToSelector:@selector(browserExit)])    {
+            [self.navigationDelegate browserExit];
         }
-    });
+
+        // Run later to avoid the "took a long time" log message.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self respondsToSelector:@selector(presentingViewController)]) {
+                [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                [[self parentViewController] dismissModalViewControllerAnimated:YES];
+            }
+        });
+    }
 }
 
 - (void)navigateTo:(NSURL*)url
@@ -1353,7 +1385,7 @@
 {
     // loading url, start spinner, update back/forward
     
-     NSLog(@"webViewDidStartLoad");
+//     NSLog(@"webViewDidStartLoad");
 
     self.addressLabel.text = NSLocalizedString(@"Loading...", nil);
     self.backButton.enabled = theWebView.canGoBack;
@@ -1369,20 +1401,132 @@
 - (BOOL)webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
     
-    NSLog(@"webViewDidStartLoad#####################");
+//    NSLog(@"webViewDidStartLoad 1");
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
 
     if (isTopLevelNavigation) {
         self.currentURL = request.URL;
     }
+    
+    
+    
+    //added by steven for popup window
+    NSString *realUrl = request.URL.absoluteString;
+    NSLog(@"realUrl: %@", realUrl);
+    BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
+            ||[realUrl hasPrefix:@"https://www.facebook.com"]
+            ||[realUrl hasPrefix:@"https://twitter.com"]
+            ||[realUrl hasPrefix:@"https://accounts.google.com"]
+            ||[realUrl hasPrefix:@"https://m.facebook.com/"];
+    
+    // 3. time has been selected - close the pop-up window
+    if ([realUrl rangeOfString:@"back"].location == 0)
+    {
+        [self closePopUp];
+        return NO;
+    }
+    
+    if (isLinkForLogin) {
+
+        
+        // 2. we're loading it and have already created it, etc. so just let it load
+        if (wvPopUp)
+            return YES;
+        
+        // 1. we have a 'popup' request - create the new view and display it
+        UIWebView *wv = [self popUpWebview];
+        [wv loadRequest:request];
+        return NO;
+    }
+
+ 
+    
+    
+    
+    
     return [self.navigationDelegate webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
+}
+
+
+//added by steven for popup window and close it
+
+- (UIWebView *) popUpWebview
+{
+    // Create a web view that fills the entire window, minus the toolbar height
+    UIWebView *webView = [[UIWebView alloc]
+                          initWithFrame:CGRectMake(0, 0, (float)self.view.bounds.size.width,
+                                                   (float)self.view.bounds.size.height)];
+    webView.scalesPageToFit = YES;
+    webView.delegate = self;
+    // Add to windows array and make active window
+    wvPopUp = webView;
+    
+
+    [self.view addSubview:webView];
+    [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+//    [self.toolbar setItems:@[ flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+    
+    self.view.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:self.toolbar];
+    [self.view addSubview:self.addressLabel];
+    [self.view addSubview:self.spinner];
+    
+    [self setCloseButtonTitle:@"Close"];
+    [self showToolBar:true :self.defaultBrowserOptions.toolbarposition];
+    return webView;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {
     // update url, stop spinner, update back/forward
     
-    NSLog(@"webViewDidFinishLoad");
+//    NSLog(@"webViewDidFinishLoad");
+    
+//    //add by steven 23-06-14
+//    //if the link go to other website for login then show toolbar
+//    //if stay in our website, keep the origin setting of toolbar
+//    NSString *realUrl =[self.currentURL absoluteString];
+////    if ([realUrl hasPrefix:@"http://www.rebonline.com.au"]) {
+////        self.lastUrlBeforeLogin = realUrl;
+////         NSLog(@"self.lastUrlBeforeLogin = %@",self.lastUrlBeforeLogin);
+////    }
+//    BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
+//    ||[realUrl hasPrefix:@"https://www.facebook.com"]
+//    ||[realUrl hasPrefix:@"https://twitter.com"]
+//    ||[realUrl hasPrefix:@"https://accounts.google.com"]
+//    ||[realUrl hasPrefix:@"https://m.facebook.com/"];
+////    NSLog(@"request.URL = %@",self.currentURL);
+//    NSLog(@"NSString *realUrl = %@",realUrl);
+//    if (isLinkForLogin) {
+//        [self showToolBar:true  :self.defaultBrowserOptions.toolbarposition];
+//    }else{
+//        [self showToolBar:self.defaultBrowserOptions.toolbar  :self.defaultBrowserOptions.toolbarposition];
+//    }
+//    
+//    BOOL isLinkLoginSuccess = [realUrl hasPrefix:@"http://disqus.com/next/login-success/"];
+//    if (isLinkLoginSuccess) {
+////        [self navigateTo:[NSURL URLWithString:self.lastUrlBeforeLogin]];
+//        
+//
+//            [self.webView goBack];
+//            [self.webView goBack];
+//   
+//    }
+    
+    // this is a pop-up window
+    if (wvPopUp)
+    {
+        // overwrite the 'window.close' to be a 'back://' URL (see above)
+        NSError *error = nil;
+        NSString *jsFromFile = [NSString stringWithContentsOfURL:[[NSBundle mainBundle]
+                                                                  URLForResource:@"JS2" withExtension:@"txt"]
+                                                        encoding:NSUTF8StringEncoding error:&error];
+        __unused NSString *jsOverrides = [wvPopUp
+                                          stringByEvaluatingJavaScriptFromString:jsFromFile];   
+    }
+    
+    
+    
 
     self.addressLabel.text = [self.currentURL absoluteString];
     self.backButton.enabled = theWebView.canGoBack;
@@ -1453,6 +1597,10 @@
 
     return YES;
 }
+
+
+
+
 
 @end
 

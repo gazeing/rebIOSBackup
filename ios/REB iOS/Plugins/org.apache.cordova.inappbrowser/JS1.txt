@@ -1,0 +1,1 @@
+window.open = function (open) { return function  (url, name, features) { window.location.href = url; return window; }; } (window.open);
