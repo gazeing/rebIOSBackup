@@ -30,6 +30,7 @@
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <GooglePlus/GooglePlus.h>
+#import "RNCachingURLProtocol.h"
 
 
 @implementation AppDelegate
@@ -101,6 +102,10 @@
     NSString* finalUA = [defaultUA stringByAppendingString:suffixUA];
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:finalUA, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    
+    
+    //added by steven 26-06-2014 for html5 application cache
+    [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
 
     return YES;
 }

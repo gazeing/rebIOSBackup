@@ -4,7 +4,7 @@ var l,
     h = [],
     valid = false,
     a = "",
-    fwk = "http://platform.linkedin.com/js/framework?v=0.0.1194-RC8.34073-1411",
+    fwk = "http://platform.linkedin.com/js/framework?v=0.0.2000-RC8.36540-1414",
     xtnreg = /extensions=([^&]*)&?/,
     xtn = fwk.match(xtnreg),
     dotRegex = /\./g,
@@ -46,20 +46,21 @@ if AUTH_USERSPACE
     l = IN.ENV.api = IN.ENV.api || {};
     l.queue_interval = parseInt("300", 10);
     l = IN.ENV.url =  IN.ENV.url || {};
-    l.xd_html = "https://platform.linkedin.com/js/xdrpc.html?v=0.0.1194-RC8.34073-1411";
-    l.xd_us_html = "http://platform.linkedin.com/js/xdrpc.html?v=0.0.1194-RC8.34073-1411";
-    l.api_xd_html = "https://api.linkedin.com/uas/js/xdrpc.html?v=0.0.1194-RC8.34073-1411";
+    l.xd_html = "https://platform.linkedin.com/js/xdrpc.html?v=0.0.2000-RC8.36540-1414";
+    l.xd_us_html = "http://platform.linkedin.com/js/xdrpc.html?v=0.0.2000-RC8.36540-1414";
+    l.api_xd_html = "https://api.linkedin.com/uas/js/xdrpc.html?v=0.0.2000-RC8.36540-1414";
     l.api = "https://api.linkedin.com/v1";
     l.login = "https://www.linkedin.com/uas/connect/user-signin";
     l.authorize = "https://www.linkedin.com/uas/oauth2/authorize?immediate=true";
     l.silent_auth_url = "${SILENT_AUTHORIZE_URL}";
     l.logout = "https://www.linkedin.com/uas/connect/logout?oauth_token={OAUTH_TOKEN}&api_key={API_KEY}&callback={CALLBACK}";
-    l.userspace_renew = "https://www.linkedin.com/uas/js/authuserspace?v=0.0.1194-RC8.34073-1411&api_key={API_KEY}";
+    l.userspace_renew = "https://www.linkedin.com/uas/js/authuserspace?v=0.0.2000-RC8.36540-1414&api_key={API_KEY}";
     l.base_js_url = "${DEFAULT_JS_URL}";
     l.analytics_us_url = "http://www.linkedin.com/analytics/?type=__ETYPE__&trackingInfo=__TRKINFO__&trk=__TINFO__&or=__ORIGIN__&wt=__WTYPE__";
     l.analytics_url = "http://www.linkedin.com/analytics/?type=__ETYPE__&trackingInfo=__TRKINFO__&trk=__TINFO__&or=__ORIGIN__&wt=__WTYPE__";
 
     l = IN.ENV.widget = IN.ENV.widget || {};
+    l.alumni_url = "http://www.linkedin.com/cws/alumni";
     l.leadgen_url = "http://www.linkedin.com/cws/leadgen";
     l.followmember_url = "http://www.linkedin.com/cws/followmember";
     l.settings_url = "http://www.linkedin.com/cws/settings";
@@ -87,8 +88,8 @@ if AUTH_USERSPACE
     l.csap_beacon_url = "http://www.linkedin.com/cws/csap/beacon";
     l = IN.ENV.images = IN.ENV.images || {};
     l.sprite = "http://s.c.lnkd.licdn.com/scds/common/u/images/apps/connect/sprites/sprite_connect_v14.png";
-    l.unsecure_xdswf = "http://platform.linkedin.com/js/easyXDM.swf?v=0.0.1194-RC8.34073-1411";
-    l.secure_xdswf = "https://platform.linkedin.com/js/easyXDM.swf?v=0.0.1194-RC8.34073-1411";
+    l.unsecure_xdswf = "http://platform.linkedin.com/js/easyXDM.swf?v=0.0.2000-RC8.36540-1414";
+    l.secure_xdswf = "https://platform.linkedin.com/js/easyXDM.swf?v=0.0.2000-RC8.36540-1414";
     /*
      # Client Side Extensions
      # These are possibly in framework js and need to be loaded
@@ -2245,6 +2246,24 @@ b.place(this.el())
 });
 IN.addTag("Leadgen",IN.Tags.Leadgen);
 
+/* res://connect-min/dev/tags/alumni.js */
+
+Sslac.Class("IN.Tags.Alumni").Extends("IN.Tags.Base").Constructor(function(b,a){$_STATISTICS.profile("Alumni");
+a=a||{};
+this.Parent(b,a);
+this.id=a.id||"plugin-Alumni";
+this.width=(typeof a.width!==$_CONSTANTS.types.undef)?parseInt(a.width,10):0;
+if(isNaN(this.width)){this.width=0
+}this.createFrame();
+$_STATISTICS.profile("Alumni",true)
+}).Method("createFrame",function(){this.el().innerHTML="";
+var a={};
+if(this.width>0){a.width=this.width
+}var b=new IN.Objects.SmartWindow({mode:"embedded",url:IN.ENV.widget.alumni_url}).params(a);
+b.place(this.el())
+});
+IN.addTag("Alumni",IN.Tags.Alumni);
+
 /* res://connect-min/dev/objects/lib.js */
 
 Sslac.Function("IN.Objects.Lib.center",function(b){var a=IN.Objects.Lib.getCenter(b);
@@ -2497,42 +2516,57 @@ if(this.width>0){a.width=this.width
 }var c=this.userFields={};
 var b=this.attributes;
 for(var d in b){if(d.indexOf("field-")===0){c[b[d].toLowerCase()]=d.substring(6)
-}}this.getFieldName=function(i){var h=i.getAttribute("data-in-profile");
-if(h){return h
-}var g=i.getAttribute("name");
-if(g){g=g.toLowerCase();
-if(c[g]){return c[g]
-}return g
+}}this.getProfileToElementMapping=function(i){var j=i.nodeName.toLowerCase();
+if(!j||(j!=="input"&&j!=="select")){return false
+}var h=i.getAttribute("type");
+if(h&&h.length>0&&h.toLowerCase()==="hidden"){return false
+}var k=i.getAttribute("data-in-profile");
+if(k&&k.length>0){return k
+}var l=i.getAttribute("placeholder");
+if(l&&l.length>0){l=l.toLowerCase();
+if(c[l]&&c[l].length>0){return c[l]
+}}var g=i.getAttribute("name");
+if(g&&g.length>0){g=g.toLowerCase();
+if(c[g]&&c[g].length>0){return c[g]
+}}if(i.id&&i.id.length>0){var m=i.id.toLowerCase();
+if(c[m]&&c[m].length>0){return c[m]
+}}if(g&&g.length>0){return g
 }return false
 };
+this.setValue=function(l,m){if(l.nodeName==="SELECT"){var j=l.getElementsByTagName("option");
+var h=m.toLowerCase();
+try{for(var k=0;
+k<j.length;
+k++){if(j[k].value.toLowerCase()===h){j[k].selected=true
+}}}catch(n){}}else{l.value=m
+}if("createEvent" in document){var g=document.createEvent("HTMLEvents");
+g.initEvent("change",false,true);
+l.dispatchEvent(g)
+}else{l.fireEvent("onchange")
+}};
 var e;
-if(this.formid){e=document.getElementById(this.formid)||document.forms[this.formid]
-}e=e||document.forms[0];
 var f=new IN.Objects.SmartWindow({mode:"embedded",disableRefresh:true,url:IN.ENV.widget.lilaform_url}).params(a);
-f.success(function(q){var l=[];
-if(q.tracking&&q.tracking["onSubmit"]){this.submitUrl=q.tracking["onSubmit"]
-}if(q.data){if(!e){return
+f.success(function(p){if(this.formid){e=document.getElementById(this.formid)||document.forms[this.formid]
+}e=e||document.forms[0];
+var l=[];
+if(p.tracking&&p.tracking["onSubmit"]){this.submitUrl=p.tracking["onSubmit"]
+}if(!p.data||!e){return
 }var h=e.elements;
 var n=h.length;
-for(var k=0;
-k<n;
-k++){var m=this.getFieldName(h[k]);
+for(var j=0;
+j<n;
+j++){var m=this.getProfileToElementMapping(h[j]);
 if(!m){continue
 }m=m.toLowerCase();
-var o=q.data[m];
-if(!o||o.length===0){continue
-}h[k].value=o;
-l.push(m);
-if("createEvent" in document){var p=document.createEvent("HTMLEvents");
-p.initEvent("change",false,true);
-h[k].dispatchEvent(p)
-}else{h[k].fireEvent("onchange")
-}}}var j=new Image();
-if(q.tracking&&q.tracking["onClick"]){var g=q.tracking["onClick"].replace(/&amp;/g,"&");
+var o=p.data[m];
+if(o&&o.length>0){this.setValue(h[j],o);
+l.push(m)
+}}var k=new Image();
+if(p.tracking&&p.tracking["onClick"]){var g=p.tracking["onClick"].replace(/&amp;/g,"&");
 g=g.replace(/__FIELDS_FILLED__/g,encodeURIComponent(l));
 g=g.replace(/__API_KEY__/g,encodeURIComponent(IN.ENV.js.apiKey));
 g=g.replace(/__UNIQUE_ID__/g,encodeURIComponent(this.uniqueid));
-j.src=g
+k.src=g
 }},this);
 f.place(this.el());
 IN.Event.onOnce(e,"submit",function(h){if(this.submitUrl){h.preventDefault();

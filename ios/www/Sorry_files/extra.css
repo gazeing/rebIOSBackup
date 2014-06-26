@@ -14,3 +14,31 @@ article.item-page.features .headline{
 .blog-featured h2{
     font-size: 1.2em;
 }
+
+
+ul.finalist{
+	background: #2AA4CF;
+	padding: 5px;
+	list-style-type: none;
+	width: 50%;
+	margin: 0 auto;
+}
+ ul.finalist li{
+	background: #fff;
+	padding: 5px;
+	margin-bottom: 5px;
+	border-left: 5px solid #888;
+}
+
+ ul.finalist li:last-child{
+	margin-bottom: 0px;
+ }
+ 
+ body.itemid-127 section h5{
+	font-size: 20px;
+	margin-left: 146px;
+	position: absolute;
+	margin-top: 0px;
+ }
+ 
+  

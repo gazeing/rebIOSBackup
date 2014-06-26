@@ -1,210 +1,1 @@
-.features h2{
-    font-size: 1.8em;
-    font-weight: normal;
-}
-
-.features h3{
-    font-size: 2em;
-    font-weight: bold;
-}
-.copyright {
-    font-size: 12px;
-    text-align: justify;
-}
-.nav-tabs>li>a{
-   color: #ffffff;;
-}
-
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
-    color: #fff;
-    cursor: default;
-    background-color: #282A79;
-    border-bottom-color: transparent;
-    border: 0;
-}
-.glyphicon-home {
-    font-size: 13px !important;
-}
-
-.menu-footer li{
-    font-size: 12px;
-}
-.menu-footer>li>a{
-    font-size: 12px;
-}
-.nav.nav-tabs li a span {
-    font-size: 16px;
-    margin-top: 2px;
-}
-.fa {
-    font-size: 18px;
-}
-.footer-email-link {
-    font-size: 15px;
-}
-
-.seperator p {
-    color: #ffffff;
-    font-size: 24px;
-    font-weight: bold;
-}
-blockquote:first-letter {
-    padding-left: 75px;
-}
-blockquote {
-    padding: 50px 0px;
-    margin: 0 0 20px;
-    border: none;
-    background: url(../images/quotes-open.png) no-repeat, url(../images/quotes-close.png) 100% 100% no-repeat;
-    height: auto;
-    font-size: 25px;
-}
-.headline,.headline a{
-    color: #4a4a4a;
-    font-family: Arial,sans-serif;
-    margin-top: 0;
-    font-size: 40px;
-    font-weight: 700;
-}
-.before-component h3{
-    font-size: 19px;
-}
-article.item-page section p{
-    font-family: Arial,sans-serif;
-    font-size: 110%;
-    line-height: 1.36em;
-}
-dl.article-info dd {
-    display : inline-block;
-    color: #969696;
-    font-size: 14px;
-}
-
-.blog h2{
-    font-size: 16px;
-    line-height: 1.4em;
-    margin: 0;
-}
-.view-category .blog h1.headline{
-    margin-bottom: 0;
-    line-height: 0;
-}
-.article-info{
-    margin: 0 0 4px 0;
-}
-.view-category .blog h1.headline a{
-    font-size: 28px;
-    vertical-align: top;
-    line-height: 1;
-}
-.view-category .category-list h1.headline a{
-    font-size: 20px;
-    line-height: 0.6;
-}
-.view-category .category-list h1.headline{
-    line-height: 0.6;
-}
-.pagination>li>a, .pagination>li>span {
-    font-size: 21px;
-    font-weight: 400;
-}
-
-.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
-    font-size: 21px;
-    background: #2b3991;
-    border-color: #2b3991;
-}
-
-@media screen and (max-width: 992px) {
-    .footer .leftcontent, .footer .leftcontent p{
-        text-align: center;
-    }
-    .copyright.pull-left{
-        float: none !important;
-    }
-}
-.single-comment ul.dsq-widget-list{
-    background: url(images/quote-l.gif) 0 0 no-repeat,url(images/quote-r.gif) 100% 100% no-repeat;
-    border: none;
-}
-ul.dsq-widget-list{
-    padding: 0;
-    background: #fbfbfb;
-    border-top: #eeeeee solid 1px;
-}
-.single-comment li.dsq-widget-item {
-    padding: 0px 26px;
-    margin: 5px 0;
-    border: none;
-}
-.single-comment a.dsq-widget-user{
-    padding-left: 10px;
-}
-.single-comment .dsq-widget-avatar{
-    display: none;
-}
-
-li.dsq-widget-item {
-    font-weight: bold;
-    font-size: 12px;
-    border-bottom: #f7f7f7 solid 1px;
-    text-transform: capitalize;
-    padding: 2px 20px;
-}
-.top .module .single-comment .title{
-    margin: 15px 0px 0 0;
-}
-
-.dsq-widget-comment p {
-    font-size: 12px;
-    color: #000;
-    font-weight: normal;
-    text-transform: none;
-}
-
-fieldset legend{
-    font-size: 12px;
-}
-#top-leaderboard time{
-    font-size: 12px;
-    margin:0;
-    position: relative;
-    top: 8px;
-}
-.mac.chrome nav ul {
-    font-weight: normal;
-}
-
-@media all and (min-width: 768px) and (max-width: 992px){
-    #top-navigation div.search.homesearch {
-        width: 98%;
-    }
-    .nav.nav-tabs li a span {
-        font-size: 15px;
-    }
-
-    .nav.nav-tabs li a span.glyphicon-home{
-        font-size: 12px;
-    }
-}
-@media all and (min-width: 768px) and (max-width: 991px){
-    .nav.nav-tabs li a span {
-        font-size: 15px;
-    }
-
-    .nav.nav-tabs li a span.glyphicon-home{
-        font-size: 12px;
-    }
-}
-
-@media all and (max-width: 992px){
-    #top-navigation div.search.homesearch {
-        width: 98%;
-    }
-}
-
-@media all and (min-width: 1006px) and (max-width: 1216px){
-    #top-navigation div.search.homesearch {
-        width: 20%;
-    }
-}
+.features h2{    font-size: 1.8em;    font-weight: normal;}.features h3{    font-size: 2em;    font-weight: bold;}.copyright {    font-size: 12px;    text-align: justify;}.nav-tabs>li>a{   color: #ffffff;;}.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {    color: #fff;    cursor: default;    background-color: #282A79;    border-bottom-color: transparent;    border: 0;}.glyphicon-home {    font-size: 13px !important;}.menu-footer li{    font-size: 12px;}.menu-footer>li>a{    font-size: 12px;}.nav.nav-tabs li a span {    font-size: 16px;    margin-top: 2px;}.fa {    font-size: 18px;}.footer-email-link {    font-size: 15px;}.seperator p {    color: #ffffff;    font-size: 24px;    font-weight: bold;}blockquote:first-letter {    padding-left: 75px;}blockquote {    padding: 50px 0px;    margin: 0 0 20px;    border: none;    background: url(../images/quotes-open.png) no-repeat, url(../images/quotes-close.png) 100% 100% no-repeat;    height: auto;    font-size: 25px;}.headline,.headline a{    color: #4a4a4a;    font-family: Arial,sans-serif;    margin-top: 0;    font-size: 40px;    font-weight: 700;}.before-component h3{    font-size: 19px;}article.item-page section p{    font-family: Arial,sans-serif;    font-size: 110%;    line-height: 1.36em;}dl.article-info dd {    display : inline-block;    color: #969696;    font-size: 14px;}.blog h2{    font-size: 16px;    line-height: 1.4em;    margin: 0;}.view-category .blog h1.headline{    margin-bottom: 0;    line-height: 0;}.article-info{    margin: 0 0 4px 0;}.view-category .blog h1.headline a{    font-size: 28px;    vertical-align: top;    line-height: 1;}.view-category .cat-items h1.headline a{    font-size: 20px;    line-height: 0.6;}.view-category .cat-items h1.headline{    line-height: 0.6;}.pagination>li>a, .pagination>li>span {    font-size: 21px;    font-weight: 400;}.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{    font-size: 21px;    background: #2b3991;    border-color: #2b3991;}@media screen and (max-width: 992px) {    .footer .leftcontent, .footer .leftcontent p{        text-align: center;    }    .copyright.pull-left{        float: none !important;    }}.single-comment ul.dsq-widget-list{    background: url(images/quote-l.gif) 0 0 no-repeat,url(images/quote-r.gif) 100% 100% no-repeat;    border: none;}ul.dsq-widget-list{    padding: 0;    background: #fbfbfb;    border-top: #eeeeee solid 1px;}.single-comment li.dsq-widget-item {    padding: 0px 26px;    margin: 5px 0;    border: none;}.single-comment a.dsq-widget-user{    padding-left: 10px;}.single-comment .dsq-widget-avatar{    display: none;}li.dsq-widget-item {    font-weight: bold;    font-size: 12px;    border-bottom: #f7f7f7 solid 1px;    text-transform: capitalize;    padding: 2px 20px;}.top .module .single-comment .title{    margin: 15px 0px 0 0;}.dsq-widget-comment p {    font-size: 12px;    color: #000;    font-weight: normal;    text-transform: none;}fieldset legend{    font-size: 12px;}#top-leaderboard time{    font-size: 12px;    margin:0;    position: relative;    top: 8px;}.mac.chrome nav ul {    font-weight: normal;}@media all and (min-width: 768px) and (max-width: 992px){    #top-navigation div.search.homesearch {        width: 98%;    }    .nav.nav-tabs li a span {        font-size: 15px;    }    .nav.nav-tabs li a span.glyphicon-home{        font-size: 12px;    }}@media all and (min-width: 768px) and (max-width: 991px){    .nav.nav-tabs li a span {        font-size: 15px;    }    .nav.nav-tabs li a span.glyphicon-home{        font-size: 12px;    }}@media all and (max-width: 992px){    #top-navigation div.search.homesearch {        width: 98%;    }}@media all and (min-width: 1006px) and (max-width: 1216px){    #top-navigation div.search.homesearch {        width: 20%;    }}
