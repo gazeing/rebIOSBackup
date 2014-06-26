@@ -24,6 +24,8 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <GooglePlus/GooglePlus.h>
 #import "WebViewJavascriptBridge.h" //source can be found @ https://github.com/gazeing/WebViewJavascriptBridge
+#import "ActionSheetPicker.h"
+
 
 
 @class CDVInAppBrowserViewController;
@@ -71,7 +73,7 @@
 
 
 
-@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate,GPPSignInDelegate, CDVScreenOrientationDelegate>{
+@interface CDVInAppBrowserViewController : UIViewController <UIWebViewDelegate,MFMailComposeViewControllerDelegate,GPPSignInDelegate, CDVScreenOrientationDelegate>{
     @private
     NSString* _userAgent;
     NSString* _prevUserAgent;
@@ -79,7 +81,7 @@
     CDVInAppBrowserOptions *_browserOptions;
     CDVWebViewDelegate* _webViewDelegate;
     
-    UIPickerView *myPickerView;
+//    UIPickerView *myPickerView;
     
     NSString *shareUrl ;
     NSString *shareTitle ;
@@ -95,6 +97,7 @@
 
 }
 
+@property (nonatomic, assign) NSInteger selectedIndex;
 //add by steven 23-06-14  to store default browser option for showtoolbar
 @property (retain, nonatomic) CDVInAppBrowserOptions* defaultBrowserOptions;
 //@property (retain, nonatomic) NSString* lastUrlBeforeLogin;

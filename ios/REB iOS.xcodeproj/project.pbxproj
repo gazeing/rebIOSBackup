@@ -60,6 +60,12 @@
 		FF82C3A0194FC3B6004E990A /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF82C39F194FC3B6004E990A /* GooglePlus.bundle */; };
 		FF8978801952C68200E0866B /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = FF89787E1952C68200E0866B /* Icon-Small.png */; };
 		FF8978811952C68200E0866B /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF89787F1952C68200E0866B /* Icon-Small@2x.png */; };
+		FFA6A37C195AACCD00B4AE71 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A370195AACCD00B4AE71 /* AbstractActionSheetPicker.m */; };
+		FFA6A37D195AACCD00B4AE71 /* ActionSheetCustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A372195AACCD00B4AE71 /* ActionSheetCustomPicker.m */; };
+		FFA6A37E195AACCD00B4AE71 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A375195AACCD00B4AE71 /* ActionSheetDatePicker.m */; };
+		FFA6A37F195AACCD00B4AE71 /* ActionSheetDistancePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A377195AACCD00B4AE71 /* ActionSheetDistancePicker.m */; };
+		FFA6A380195AACCD00B4AE71 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A379195AACCD00B4AE71 /* ActionSheetStringPicker.m */; };
+		FFA6A381195AACCD00B4AE71 /* DistancePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA6A37B195AACCD00B4AE71 /* DistancePickerView.m */; };
 		FFADFEAB194AD10500D6DCF8 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFADFEAA194AD10500D6DCF8 /* Social.framework */; };
 		FFB02FE9194982D4008D1C28 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */; };
 		FFB02FEA194982D4008D1C28 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB02FE8194982D4008D1C28 /* WebViewJavascriptBridge.m */; };
@@ -157,6 +163,20 @@
 		FF82C39F194FC3B6004E990A /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "../../../../../../Downloads/google-plus-ios-sdk-1.5.1/GooglePlus.bundle"; sourceTree = "<group>"; };
 		FF89787E1952C68200E0866B /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		FF89787F1952C68200E0866B /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		FFA6A36F195AACCD00B4AE71 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		FFA6A370195AACCD00B4AE71 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		FFA6A371195AACCD00B4AE71 /* ActionSheetCustomPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPicker.h; sourceTree = "<group>"; };
+		FFA6A372195AACCD00B4AE71 /* ActionSheetCustomPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetCustomPicker.m; sourceTree = "<group>"; };
+		FFA6A373195AACCD00B4AE71 /* ActionSheetCustomPickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPickerDelegate.h; sourceTree = "<group>"; };
+		FFA6A374195AACCD00B4AE71 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
+		FFA6A375195AACCD00B4AE71 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
+		FFA6A376195AACCD00B4AE71 /* ActionSheetDistancePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDistancePicker.h; sourceTree = "<group>"; };
+		FFA6A377195AACCD00B4AE71 /* ActionSheetDistancePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDistancePicker.m; sourceTree = "<group>"; };
+		FFA6A378195AACCD00B4AE71 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
+		FFA6A379195AACCD00B4AE71 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
+		FFA6A37A195AACCD00B4AE71 /* DistancePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistancePickerView.h; sourceTree = "<group>"; };
+		FFA6A37B195AACCD00B4AE71 /* DistancePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistancePickerView.m; sourceTree = "<group>"; };
+		FFA6A382195AAE8D00B4AE71 /* ActionSheetPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionSheetPicker.h; sourceTree = "<group>"; };
 		FFADFEAA194AD10500D6DCF8 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		FFB02FE6194982D4008D1C28 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		FFB02FE7194982D4008D1C28 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
@@ -196,6 +216,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FFA6A36E195AACCD00B4AE71 /* Pickers */,
 				FFB02FE5194982D4008D1C28 /* WebViewJavascriptBridge */,
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
@@ -384,6 +405,27 @@
 			path = se.lproj;
 			sourceTree = "<group>";
 		};
+		FFA6A36E195AACCD00B4AE71 /* Pickers */ = {
+			isa = PBXGroup;
+			children = (
+				FFA6A382195AAE8D00B4AE71 /* ActionSheetPicker.h */,
+				FFA6A36F195AACCD00B4AE71 /* AbstractActionSheetPicker.h */,
+				FFA6A370195AACCD00B4AE71 /* AbstractActionSheetPicker.m */,
+				FFA6A371195AACCD00B4AE71 /* ActionSheetCustomPicker.h */,
+				FFA6A372195AACCD00B4AE71 /* ActionSheetCustomPicker.m */,
+				FFA6A373195AACCD00B4AE71 /* ActionSheetCustomPickerDelegate.h */,
+				FFA6A374195AACCD00B4AE71 /* ActionSheetDatePicker.h */,
+				FFA6A375195AACCD00B4AE71 /* ActionSheetDatePicker.m */,
+				FFA6A376195AACCD00B4AE71 /* ActionSheetDistancePicker.h */,
+				FFA6A377195AACCD00B4AE71 /* ActionSheetDistancePicker.m */,
+				FFA6A378195AACCD00B4AE71 /* ActionSheetStringPicker.h */,
+				FFA6A379195AACCD00B4AE71 /* ActionSheetStringPicker.m */,
+				FFA6A37A195AACCD00B4AE71 /* DistancePickerView.h */,
+				FFA6A37B195AACCD00B4AE71 /* DistancePickerView.m */,
+			);
+			path = Pickers;
+			sourceTree = "<group>";
+		};
 		FFB02FE5194982D4008D1C28 /* WebViewJavascriptBridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -525,11 +567,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFA6A37D195AACCD00B4AE71 /* ActionSheetCustomPicker.m in Sources */,
 				FF5A24AC19496ACD00B4E17D /* CDVLogger.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				2187E87418E8F32A005ABAE6 /* CDVInAppBrowser.m in Sources */,
 				2187E88618E8F3E3005ABAE6 /* CDVLocalFilesystem.m in Sources */,
 				FFB02FEA194982D4008D1C28 /* WebViewJavascriptBridge.m in Sources */,
+				FFA6A381195AACCD00B4AE71 /* DistancePickerView.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				2187E88518E8F3E3005ABAE6 /* CDVFile.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
@@ -539,7 +583,11 @@
 				2187E88418E8F3E3005ABAE6 /* CDVAssetLibraryFilesystem.m in Sources */,
 				2187E88F18E8F415005ABAE6 /* CDVReachability.m in Sources */,
 				2187E87718E8F370005ABAE6 /* CDVSplashScreen.m in Sources */,
+				FFA6A37F195AACCD00B4AE71 /* ActionSheetDistancePicker.m in Sources */,
+				FFA6A380195AACCD00B4AE71 /* ActionSheetStringPicker.m in Sources */,
+				FFA6A37E195AACCD00B4AE71 /* ActionSheetDatePicker.m in Sources */,
 				2187E87A18E8F3CA005ABAE6 /* CDVDevice.m in Sources */,
+				FFA6A37C195AACCD00B4AE71 /* AbstractActionSheetPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

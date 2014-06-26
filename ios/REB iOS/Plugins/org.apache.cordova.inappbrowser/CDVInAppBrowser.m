@@ -35,6 +35,7 @@
 
 
 
+
 #define    kInAppBrowserTargetSelf @"_self"
 #define    kInAppBrowserTargetSystem @"_system"
 #define    kInAppBrowserTargetBlank @"_blank"
@@ -800,12 +801,14 @@
     }else{
     
     if (![shareUrl length]==0) {
-        if(![myPickerView isEqual:[NSNull null]]){
+//        if(![myPickerView isEqual:[NSNull null]]){
+//
+//            [self.view addSubview:myPickerView];
+//
+//            
+//        }
+        [self openPicker];
 
-            [self.view addSubview:myPickerView];
-
-            
-        }
     }
         
 }
@@ -831,7 +834,7 @@
             // now check for availability of the app and invoke the correct callback
 
             
-            NSLog(@"composeViewController finish: %d",result);
+            NSLog(@"composeViewController finish: %ld",result);
         }];
         
     }else if ([action isEqual:@"twitter"]){
@@ -846,7 +849,7 @@
             // now check for availability of the app and invoke the correct callback
             
             
-            NSLog(@"composeViewController finish: %d",result);
+            NSLog(@"composeViewController finish: %ld",result);
         }];
 
         
@@ -1022,7 +1025,7 @@
         
     } else {
         
-        [self showAlert :@"WhatsApp is not working on your phone, please check it."];
+        [self showAlert :@"WhatsApp is not working on your device, please check it."];
 
     }
 }
@@ -1039,11 +1042,30 @@
 
 //implementation for picker view
 
+- (void) openPicker{
+    
+    [ActionSheetStringPicker showPickerWithTitle:@"Select a Sharer: " rows:shareApps initialSelection:self.selectedIndex target:self successAction:@selector(sharerWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:self.view];
+    
+}
+
+- (void)sharerWasSelected:(NSNumber *)selectedIndex element:(id)element {
+    self.selectedIndex = [selectedIndex intValue];
+    
+    NSLog(@"didSelectRow : %ld",(long)self.selectedIndex);
+    
+    [self shareLinkVia:[[shareApps objectAtIndex:self.selectedIndex] lowercaseString] TitleToDisplay:shareTitle UrlToShare:shareUrl];
+
+}
+
+- (void)actionPickerCancelled:(id)sender {
+    NSLog(@"Delegate has been informed that ActionSheetPicker was cancelled");
+}
+
 - (void)createPickerView{
-    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 300,300, 616)];
-    myPickerView.backgroundColor = [UIColor whiteColor];
-    myPickerView.delegate = self;
-    myPickerView.showsSelectionIndicator = YES;
+//    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 300,300, 616)];
+//    myPickerView.backgroundColor = [UIColor whiteColor];
+//    myPickerView.delegate = self;
+//    myPickerView.showsSelectionIndicator = YES;
     
     
     shareApps = [NSArray arrayWithObjects:
@@ -1069,41 +1091,41 @@
 //    return label;
 //}
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    // Handle the selection
-    NSLog(@"didSelectRow : %ld",(long)row);
-    
-    [self shareLinkVia:[[shareApps objectAtIndex:row] lowercaseString] TitleToDisplay:shareTitle UrlToShare:shareUrl];
-    [myPickerView removeFromSuperview];
-
-}
-
-// tell the picker how many rows are available for a given component
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-//    NSUInteger numRows = 5;
-    
-    return [shareApps count];
-}
-
-// tell the picker how many components it will have
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-// tell the picker the title for a given component
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *title;
-    title = [shareApps objectAtIndex:row];
-    
-    return title;
-}
-
-// tell the picker the width of each row for a given component
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    int sectionWidth = 300;
-    
-    return sectionWidth;
-}
+//- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+//    // Handle the selection
+//    NSLog(@"didSelectRow : %ld",(long)row);
+//    
+//    [self shareLinkVia:[[shareApps objectAtIndex:row] lowercaseString] TitleToDisplay:shareTitle UrlToShare:shareUrl];
+//    [myPickerView removeFromSuperview];
+//
+//}
+//
+//// tell the picker how many rows are available for a given component
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+////    NSUInteger numRows = 5;
+//    
+//    return [shareApps count];
+//}
+//
+//// tell the picker how many components it will have
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+//    return 1;
+//}
+//
+//// tell the picker the title for a given component
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+//    NSString *title;
+//    title = [shareApps objectAtIndex:row];
+//    
+//    return title;
+//}
+//
+//// tell the picker the width of each row for a given component
+//- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+//    int sectionWidth = 300;
+//    
+//    return sectionWidth;
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -1426,6 +1448,18 @@
         [self closePopUp];
         return NO;
     }
+//added by steven, issue: success to open external browser, but webview also has a page loading
+//TODO: to fix it
+    
+//    if ([realUrl rangeOfString:@"http://adclick.g.doubleclick.net"].location == 0)
+//    {
+//        NSLog(@"ad begin: --------> %@",realUrl);
+//        if ([[UIApplication sharedApplication] canOpenURL:request.URL]) {
+//            [[UIApplication sharedApplication] openURL:request.URL];
+//            return NO;
+//        }
+//        
+//    }
     
     if (isLinkForLogin) {
 
