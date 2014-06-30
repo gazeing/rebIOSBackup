@@ -386,6 +386,18 @@ typedef enum {
 
         case STATE_WAITING_FOR_LOAD_FINISH:
             if ([error code] != NSURLErrorCancelled) {
+                //added by steven 30-06-2014
+                if ([error code] == NSURLErrorCannotConnectToHost) {
+                    fireCallback = YES;
+                    _state = STATE_CANCELLED;
+                    _loadCount -= 1;
+
+                }
+                
+                
+                
+                
+                
                 if (_loadCount == 1) {
                     _state = STATE_IDLE;
                     fireCallback = YES;
@@ -407,6 +419,7 @@ typedef enum {
             break;
     }
     VerboseLog(@"webView didFailLoad (after). state=%d loadCount=%d, fireCallback=%d", _state, _loadCount, fireCallback);
+//    NSLog(@"fireCallback = %@",fireCallback ? @"Yes" : @"No");
     if (fireCallback && [_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
         [_delegate webView:webView didFailLoadWithError:error];
     }

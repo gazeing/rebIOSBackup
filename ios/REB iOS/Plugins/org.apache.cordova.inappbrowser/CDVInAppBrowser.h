@@ -94,7 +94,11 @@
     
     UIBarButtonItem* flexibleSpaceButton;
     UIBarButtonItem* fixedSpaceButton;
+    
+    //added by steven 30-06-2014 for cache
 
+    NSURL *baseSiteUrl;
+    BOOL *isErrorReported;
 }
 
 @property (nonatomic, assign) NSInteger selectedIndex;

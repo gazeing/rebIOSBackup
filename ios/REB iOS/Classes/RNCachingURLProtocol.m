@@ -113,6 +113,7 @@ static NSString *RNCachingURLHeader = @"X-RNCache";
       }
     }
     else {
+//        NSLog(@"[[self client] URLProtocol:self didFailWithError:  NSURLErrorDomain client = %@",[self client]);
       [[self client] URLProtocol:self didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil]];
     }
   }

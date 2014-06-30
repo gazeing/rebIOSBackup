@@ -311,7 +311,7 @@
         
         //added on 31/MAR/2014 (cachePolicy: NSURLRequestReloadRevalidatingCacheData timeoutInterval:10.0)
     //    NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy: NSURLRequestReloadRevalidatingCacheData timeoutInterval:10.0];
-        [self.webView loadRequest:request];
+        [self.webView loadRequest:request ];
     } else { // this assumes the InAppBrowser can be excepted from the white-list
         NSLog(@"openInInAppBrowser: %@", url);
         [self openInInAppBrowser:url withOptions:options];
@@ -469,7 +469,7 @@
         }
     } else if ((self.callbackId != nil) && isTopLevelNavigation) {
         // Send a loadstart event for each top-level navigation (includes redirects).
-        NSLog(@"Send a loadstart event");
+//        NSLog(@"Send a loadstart event");
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                       messageAsDictionary:@{@"type":@"loadstart", @"url":[url absoluteString]}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
@@ -1350,8 +1350,13 @@
 - (void)navigateTo:(NSURL*)url
 {
    
+    if (baseSiteUrl==nil) {
+        baseSiteUrl = url;
+    }
     NSLog(@"navigateTo ===%@",url);
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    //added by steven to add timeout value
+    NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10];
+//    NSURLRequest* request = [NSURLRequest requestWithURL:url];
 
     if (_userAgentLockToken != 0) {
         [self.webView loadRequest:request];
@@ -1408,7 +1413,9 @@
 {
     // loading url, start spinner, update back/forward
     
-//     NSLog(@"webViewDidStartLoad");
+     NSLog(@"webViewDidStartLoad");
+    
+    
 
     self.addressLabel.text = NSLocalizedString(@"Loading...", nil);
     self.backButton.enabled = theWebView.canGoBack;
@@ -1435,7 +1442,7 @@
     
     //added by steven for popup window
     NSString *realUrl = request.URL.absoluteString;
-    NSLog(@"realUrl: %@", realUrl);
+//    NSLog(@"realUrl: %@", realUrl);
     BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
 //            ||[realUrl hasPrefix:@"https://www.facebook.com"]
             ||[realUrl hasPrefix:@"https://twitter.com/oauth/"]
@@ -1525,7 +1532,8 @@
 {
     // update url, stop spinner, update back/forward
     
-//    NSLog(@"webViewDidFinishLoad");
+    NSLog(@"webViewDidFinishLoad");
+    isErrorReported = false;
     
 //    //add by steven 23-06-14
 //    //if the link go to other website for login then show toolbar
@@ -1598,6 +1606,8 @@
     [self.navigationDelegate webViewDidFinishLoad:theWebView];
 }
 
+
+
 - (void)webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
 {
     //added on 31/MAR/2014
@@ -1606,11 +1616,40 @@
     // log fail message, stop spinner, update back/forward
     NSLog(@"webView:didFailLoadWithError - %ld: %@", (long)error.code, [error localizedDescription]);
 
-    self.backButton.enabled = theWebView.canGoBack;
-    self.forwardButton.enabled = theWebView.canGoForward;
-    [self.spinner stopAnimating];
+    
+    
+//    [theWebView stopLoading];
+//    [theWebView goBack];
+//    [theWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.rebonline.com.au/app"] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:10.0]];
+    if(error.code == -1004){
+        if (theWebView.canGoBack) {
+            if (!isErrorReported) {
+                [theWebView goBack];
+                [theWebView goForward];
+                [self showAlert:[[error localizedDescription] stringByAppendingString:@" We have navigated you to your orginal page."]];
+                isErrorReported = true;
+            }
 
-    self.addressLabel.text = NSLocalizedString(@"Load Error", nil);
+        } else {
+            //load the base page
+            if (baseSiteUrl!=nil) {
+                [theWebView loadRequest:[NSURLRequest requestWithURL:baseSiteUrl ]];
+                [self showAlert:[[error localizedDescription] stringByAppendingString:@" We have navigated you to the base page."]];
+            }
+        
+        }
+    }
+
+//    self.backButton.enabled = theWebView.canGoBack;
+////    self.backButton.enabled = true;
+//    self.forwardButton.enabled = theWebView.canGoForward;
+//    self.closeButton.enabled = false;
+    [self.spinner stopAnimating];
+//
+//    self.addressLabel.text = NSLocalizedString(@"Load Error", nil);
+//    
+//    [self showLocationBar:true];
+//    [self showToolBar:true :@" "];
 
     [self.navigationDelegate webView:theWebView didFailLoadWithError:error];
 }

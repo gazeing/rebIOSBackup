@@ -95,7 +95,8 @@
             var networkState = navigator.connection.type;
             var timeOutPeriod=12000;
             var states = {};
-            states[Connection.NONE]  = 'Please connect to a WiFi or Mobile data network!!!';
+            states[Connection.NONE]  = 'Please connect to a WiFi or Mobile data network, we are going to offline mode.';
+            var loadURL='http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
             if(Connection.NONE === networkState ){
                 navigator.notification.alert(states[networkState],
                                              function(button){console.log('Offline!!!');},
@@ -103,18 +104,18 @@
                                              'OK'
                                              );
                 console.log('No network Connection!!!');
-                var loadURL='Sorry.html';
+//                var loadURL='Sorry.html';
                 ref = window.open(loadURL,'_blank','location=no,toolbar=no,hidden=yes');
                 timeOutPeriod=10;
                 addInAppBrowserListeners(ref,timeOutPeriod);
             }else{
                 console.log('Network Connection Available...');
-                var loadURL='http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+
                 //alert(loadURL);
                 
-                 loadURL='http://www.rebonline.com.au/steven/testi'+'?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
-
-//                loadURL='http://www.google.com.au';
+//                 loadURL='http://www.rebonline.com.au/steven/testi'+'?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+//
+//                loadURL='http://www.rebonline.com.au/steven/server.php';
 
                 
                 console.log('LoadURL='+loadURL);
@@ -125,25 +126,25 @@
         }
         
         function onSuccessFileSystem(fileSystem){
-            var uri = encodeURI("http://thor.cs.ucsb.edu/~ravenben/papers/coreos/kll+97.pdf");
-            var directoryEntry = fileSystem.root; // to get root path to directory
-            alert(directoryEntry.toURL());
-            directoryEntry.getDirectory("SureshREB", { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail);
-            var fileTransfer = new FileTransfer();
-            fileTransfer.download(
-                                  uri,
-                                  directoryEntry.toURL()+"SureshREB/testDownload.pdf",
-                                  function(entry) {
-                                    //alert("download complete: " + entry.toURL());
-                                    var ref = window.open(entry.toURL(),'_blank','location=no,toolbar=yes,hidden=no');
-                                  },
-                                  function(error) {
-                                    alert("download error source " + error.source);
-                                    alert("download error target " + error.target);
-                                    alert("upload error code" + error.code);
-                                  },
-                                  true
-                                  );
+//            var uri = encodeURI("http://thor.cs.ucsb.edu/~ravenben/papers/coreos/kll+97.pdf");
+//            var directoryEntry = fileSystem.root; // to get root path to directory
+//            alert(directoryEntry.toURL());
+//            directoryEntry.getDirectory("SureshREB", { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail);
+//            var fileTransfer = new FileTransfer();
+//            fileTransfer.download(
+//                                  uri,
+//                                  directoryEntry.toURL()+"SureshREB/testDownload.pdf",
+//                                  function(entry) {
+//                                    //alert("download complete: " + entry.toURL());
+//                                    var ref = window.open(entry.toURL(),'_blank','location=no,toolbar=yes,hidden=no');
+//                                  },
+//                                  function(error) {
+//                                    alert("download error source " + error.source);
+//                                    alert("download error target " + error.target);
+//                                    alert("upload error code" + error.code);
+//                                  },
+//                                  true
+//                                  );
         }
         
         function onFailFileSystem(fileSystem){
@@ -178,8 +179,10 @@
         
         function iabLoadError(event) {
             console.log('Error in loading the page...');
+            var sorryUrl = 'http://www.rebonline.com.au/sorry-that-page-could-not-be-found';
             //ref.close();
-            ref = window.open('http://www.rebonline.com.au/suresh/offline.html','_blank','location=no,toolbar=no,hidden=no');
+            ref = window.open(sorryUrl,'_blank','location=no,toolbar=no,hidden=no');
+//                        ref = window.open('http://www.rebonline.com.au/suresh/offline.html','_blank','location=no,toolbar=no,hidden=no');
             addInAppBrowserListeners(ref);
         }
         
