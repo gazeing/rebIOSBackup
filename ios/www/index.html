@@ -97,6 +97,7 @@
             var states = {};
             states[Connection.NONE]  = 'Please connect to a WiFi or Mobile data network, we are going to offline mode.';
             var loadURL='http://www.rebonline.com.au/app?deviceToken='+this.deviceToken+'&registeredForPush='+this.regdForPush+'&UUID='+this.uuid;
+            // loadURL='http://www.rebonline.com.au/steven/server.php';
             if(Connection.NONE === networkState ){
                 navigator.notification.alert(states[networkState],
                                              function(button){console.log('Offline!!!');},
