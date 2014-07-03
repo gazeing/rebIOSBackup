@@ -1443,14 +1443,28 @@
     //added by steven for popup window
     NSString *realUrl = request.URL.absoluteString;
     
-//    if([realUrl hasPrefix:@"http://adclick.g.doubleclick.net"]){
-//        if (![[UIApplication sharedApplication] openURL:request.URL]){
-//            
-//            NSLog(@"%@%@",@"Failed to open url:",[realUrl description]);
-//            [self showAlert :@"Failed to share url:"];
-//        }
-//        return NO;
-//    }
+    if([realUrl hasPrefix:@"http://adclick.g.doubleclick.net"]){
+        [theWebView stopLoading];
+        if (theWebView.canGoBack) {
+            if (!isErrorReported) {
+                [theWebView goBack];
+                [theWebView goForward];
+            }
+            
+        } else {
+            //load the base page
+            if (baseSiteUrl!=nil) {
+                [theWebView loadRequest:[NSURLRequest requestWithURL:baseSiteUrl ]];
+            }
+            
+        }
+        if (![[UIApplication sharedApplication] openURL:request.URL]){
+            
+            NSLog(@"%@%@",@"Failed to open url:",[realUrl description]);
+            [self showAlert :@"Failed to share url:"];
+        }
+        return NO;
+    }
 //    NSLog(@"realUrl: %@", realUrl);
     BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
 //            ||[realUrl hasPrefix:@"https://www.facebook.com"]
