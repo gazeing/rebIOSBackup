@@ -684,7 +684,7 @@
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.toolbar];
     [self.view addSubview:self.addressLabel];
-    [self.view addSubview:self.spinner];
+//    [self.view addSubview:self.spinner];
     
     
     
@@ -1421,7 +1421,7 @@
     self.backButton.enabled = theWebView.canGoBack;
     self.forwardButton.enabled = theWebView.canGoForward;
 
-    [self.spinner startAnimating];
+//    [self.spinner startAnimating];
 
     return [self.navigationDelegate webViewDidStartLoad:theWebView];
 }
@@ -1442,11 +1442,21 @@
     
     //added by steven for popup window
     NSString *realUrl = request.URL.absoluteString;
+    
+//    if([realUrl hasPrefix:@"http://adclick.g.doubleclick.net"]){
+//        if (![[UIApplication sharedApplication] openURL:request.URL]){
+//            
+//            NSLog(@"%@%@",@"Failed to open url:",[realUrl description]);
+//            [self showAlert :@"Failed to share url:"];
+//        }
+//        return NO;
+//    }
 //    NSLog(@"realUrl: %@", realUrl);
     BOOL isLinkForLogin = [realUrl hasPrefix:@"https://disqus.com"]
 //            ||[realUrl hasPrefix:@"https://www.facebook.com"]
             ||[realUrl hasPrefix:@"https://twitter.com/oauth/"]
             ||[realUrl hasPrefix:@"http://disqus.com/_ax"]
+//            ||[realUrl hasPrefix:@"http://adclick.g.doubleclick.net"]
             ||[realUrl hasPrefix:@"https://m.facebook.com/"];
     
     // 3. time has been selected - close the pop-up window
@@ -1518,10 +1528,10 @@
     self.view.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.toolbar];
     [self.view addSubview:self.addressLabel];
-    [self.view addSubview:self.spinner];
+//    [self.view addSubview:self.spinner];
     
     [self setCloseButtonTitle:@"Done"];
-    [self.spinner startAnimating];
+//    [self.spinner startAnimating];
     [self showLocationBar:true];
     [self showToolBar:true :self.defaultBrowserOptions.toolbarposition];
    
@@ -1585,7 +1595,7 @@
     self.backButton.enabled = theWebView.canGoBack;
     self.forwardButton.enabled = theWebView.canGoForward;
 
-    [self.spinner stopAnimating];
+//    [self.spinner stopAnimating];
 
     // Work around a bug where the first time a PDF is opened, all UIWebViews
     // reload their User-Agent from NSUserDefaults.
@@ -1644,7 +1654,7 @@
 ////    self.backButton.enabled = true;
 //    self.forwardButton.enabled = theWebView.canGoForward;
 //    self.closeButton.enabled = false;
-    [self.spinner stopAnimating];
+//    [self.spinner stopAnimating];
 //
 //    self.addressLabel.text = NSLocalizedString(@"Load Error", nil);
 //    
